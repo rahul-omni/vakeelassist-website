@@ -1,14 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("experience");
 
   useEffect(() => {
     AOS.init({
@@ -252,21 +249,17 @@ export default function Home() {
   useEffect(() => {
     // Animated typing and streaming output
     const inputText = "generate a draft challenging the fir";
-    const outputText = `Hon'ble Court,\n\nThis is a draft petition challenging the First Information Report (FIR) registered against my client. The FIR, as currently framed, is vague and does not disclose any cognizable offence. It is respectfully submitted that the continuation of investigation under the impugned FIR amounts to an abuse of process of law.\n\nIt is prayed that this Hon'ble Court may be pleased to quash the FIR in the interest of justice.`;
+    const outputText = `Hon&apos;ble Court,\n\nThis is a draft petition challenging the First Information Report (FIR) registered against my client. The FIR, as currently framed, is vague and does not disclose any cognizable offence. It is respectfully submitted that the continuation of investigation under the impugned FIR amounts to an abuse of process of law.\n\nIt is prayed that this Hon&apos;ble Court may be pleased to quash the FIR in the interest of justice.`;
     const inputEl = document.getElementById("animated-input");
-    const cursorEl = document.querySelector(".blinking-cursor");
     const outputEl = document.getElementById("streaming-output");
     let inputIdx = 0;
     let outputIdx = 0;
-    let typingDone = false;
     function typeInput() {
       if (inputEl) inputEl.textContent = inputText.slice(0, inputIdx);
       if (inputIdx < inputText.length) {
         inputIdx++;
         setTimeout(typeInput, 60);
       } else {
-        typingDone = true;
-        if (cursorEl) cursorEl.classList.add("opacity-0");
         streamOutput();
       }
     }
@@ -520,7 +513,7 @@ export default function Home() {
                 <div className="absolute -top-5 -left-5 w-10 h-10 rounded-full bg-amber-200 text-gray-900 flex items-center justify-center text-xl font-bold shadow-lg">4</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Review & Improve</h3>
                 <p className="text-gray-700">
-                  Our AI continuously learns from user feedback to enhance accuracy and adapt to your firm's unique practice areas.
+                  Our AI continuously learns from user feedback to enhance accuracy and adapt to your firm unique practice areas.
                 </p>
               </div>
             </div>

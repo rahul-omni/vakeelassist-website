@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "../../components/ui/button";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Link from 'next/link';
 
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
@@ -60,14 +61,14 @@ export default function HowItWorks() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex-shrink-0 flex items-center">
-              <a href="/" className="text-xl md:text-2xl font-bold text-blue-600">VoiceAI Real Estate</a>
+              <Link href="/" className="text-xl md:text-2xl font-bold text-blue-600">VoiceAI Real Estate</Link>
             </div>
             <div className="hidden md:ml-6 md:flex md:items-center md:space-x-6">
-              <a href="/#features" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Features</a>
-              <a href="/how-it-works" className="text-blue-600 border-b-2 border-blue-600 px-3 py-2 text-sm font-medium">How It Works</a>
-              <a href="/#testimonials" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Testimonials</a>
-              <a href="/#pricing" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Pricing</a>
-              <a href="/#faq" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">FAQ</a>
+              <Link href="/#features" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Features</Link>
+              <Link href="/how-it-works" className="text-blue-600 border-b-2 border-blue-600 px-3 py-2 text-sm font-medium">How It Works</Link>
+              <Link href="/#testimonials" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Testimonials</Link>
+              <Link href="/#pricing" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Pricing</Link>
+              <Link href="/#faq" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">FAQ</Link>
               <Button className="ml-6 bg-blue-600 hover:bg-blue-700 text-white">Contact Us</Button>
             </div>
           </div>
@@ -283,7 +284,7 @@ export default function HowItWorks() {
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path>
                     </svg>
                     <p className="text-sm text-blue-700">
-                      <strong>Pro Tip:</strong> VoiceAI attempts multiple contact methods if the primary channel doesn't get a response, maximizing your lead connection rate.
+                      <strong>Pro Tip:</strong> VoiceAI attempts multiple contact methods if the primary channel doesn&apos;t get a response, maximizing your lead connection rate.
                     </p>
                   </div>
                 </div>
@@ -302,7 +303,7 @@ export default function HowItWorks() {
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path>
                     </svg>
                     <p className="text-sm text-blue-700">
-                      <strong>Pro Tip:</strong> You can customize the AI's voice, tone, and personality to perfectly match your brand's communication style.
+                      <strong>Pro Tip:</strong> You can customize the AI&apos;s voice, tone, and personality to perfectly match your brand&apos;s communication style.
                     </p>
                   </div>
                 </div>
