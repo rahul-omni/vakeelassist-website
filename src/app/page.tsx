@@ -248,8 +248,8 @@ export default function Home() {
 
   useEffect(() => {
     // Animated typing and streaming output
-    const inputText = "generate a draft challenging the fir";
-    const outputText = `Hon&apos;ble Court,\n\nThis is a draft petition challenging the First Information Report (FIR) registered against my client. The FIR, as currently framed, is vague and does not disclose any cognizable offence. It is respectfully submitted that the continuation of investigation under the impugned FIR amounts to an abuse of process of law.\n\nIt is prayed that this Hon&apos;ble Court may be pleased to quash the FIR in the interest of justice.`;
+    const inputText = "generate a draft challenging the FIR";
+    const outputText = `This is a draft petition challenging the First Information Report (FIR) registered against my client. The FIR, as currently framed, is vague and does not disclose any cognizable offence. It is respectfully submitted that the continuation of investigation under the impugned FIR amounts to an abuse of process of law.\n\nIt is prayed that this Hon&apos;ble Court may be pleased to quash the FIR in the interest of justice.`;
     const inputEl = document.getElementById("animated-input");
     const outputEl = document.getElementById("streaming-output");
     let inputIdx = 0;
@@ -454,7 +454,7 @@ export default function Home() {
                     <span id="animated-input" className="font-mono text-gray-800 text-base whitespace-pre"></span>
                     <span className="blinking-cursor text-blue-600 ml-1">|</span>
                   </div>
-                  <div id="streaming-output" className="w-full text-left font-mono text-gray-700 text-base mt-2 whitespace-pre-line"></div>
+                  <div id="streaming-output" className="w-full text-left font-mono text-gray-700 text-base mt-2 whitespace-pre-line h-80 overflow-y-auto" style={{ minHeight: '3rem' }}></div>
                 </div>
               </div>
             </div>
