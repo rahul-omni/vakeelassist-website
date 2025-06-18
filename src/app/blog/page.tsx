@@ -92,11 +92,6 @@ export default function BlogPage() {
                     <span className="text-gray-500 text-sm">May 15, 2023 • 12 min read</span>
                   </div>
                 </div>
-                <Link href="/blog/ai-transforming-legal-research">
-                  <Button className="text-blue-700 bg-white hover:bg-gray-100 border border-blue-700 px-4 py-2 rounded">
-                    Read Article
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>
@@ -126,9 +121,6 @@ export default function BlogPage() {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500 text-sm">April 28, 2023</span>
-                  <Link href="/blog/gdpr-compliance-law-firms">
-                    <span className="text-blue-700 font-medium">Read More →</span>
-                  </Link>
                 </div>
               </div>
             </div>
@@ -150,9 +142,6 @@ export default function BlogPage() {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500 text-sm">April 12, 2023</span>
-                  <Link href="/blog/ai-reducing-billable-hours">
-                    <span className="text-blue-700 font-medium">Read More →</span>
-                  </Link>
                 </div>
               </div>
             </div>
@@ -174,9 +163,6 @@ export default function BlogPage() {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500 text-sm">March 30, 2023</span>
-                  <Link href="/blog/litigation-firm-ai-case-study">
-                    <span className="text-blue-700 font-medium">Read More →</span>
-                  </Link>
                 </div>
               </div>
             </div>
