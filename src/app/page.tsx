@@ -306,6 +306,7 @@ export default function Home() {
             </div>
               <div className="hidden md:ml-8 md:flex md:space-x-8 items-center">
                 <a href="#features" className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium">Features</a>
+                <a href="/supreme-court-cases" className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium">Supreme Court Cases</a>
                 <a href="#pricing" className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium">Pricing</a>
                 <a href="#faq" className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium">FAQ</a>
                 <a href="/blog" className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium">Blog</a>
@@ -339,6 +340,7 @@ export default function Home() {
           <div className="md:hidden absolute top-16 inset-x-0 bg-white shadow-lg rounded-b-lg z-50">
             <div className="px-2 pt-2 pb-3 space-y-1">
               <a href="#features" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">Features</a>
+              <a href="/supreme-court-cases" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">Supreme Court Cases</a>
               <a href="#pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">Pricing</a>
               <a href="#faq" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">FAQ</a>
               <a href="/blog" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">Blog</a>
