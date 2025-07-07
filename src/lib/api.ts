@@ -27,7 +27,7 @@ export interface StatsResponse {
   error?: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://88a0-14-99-90-50.ngrok-free.app';
 
 export class LegalAPI {
   private baseUrl: string;
