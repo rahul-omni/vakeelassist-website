@@ -27,12 +27,15 @@ export interface StatsResponse {
   error?: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://88a0-14-99-90-50.ngrok-free.app';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+if (!API_BASE_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL environment variable is not set. Please define it in your .env.local file.');
+}
 
 export class LegalAPI {
   private baseUrl: string;
 
-  constructor(baseUrl: string = API_BASE_URL) {
+  constructor(baseUrl: string = API_BASE_URL as string) {
     this.baseUrl = baseUrl;
   }
 
