@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
 import LegalSearch from "../../components/LegalSearch";
-import ApiStatus from "../../components/ApiStatus";
 import "aos/dist/aos.css";
 
 export default function SupremeCourtCases() {
