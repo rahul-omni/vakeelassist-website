@@ -96,9 +96,9 @@ export default function SupremeCourtCases() {
           
           <LegalSearch />
 
-          <div className="max-w-lg mx-auto mt-12">
+          {/* <div className="max-w-lg mx-auto mt-12">
             <ApiStatus />
-          </div>
+          </div> */}
         </div>
       </div>
 
