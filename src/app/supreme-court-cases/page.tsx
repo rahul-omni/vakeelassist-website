@@ -80,7 +80,7 @@ export default function SupremeCourtCases() {
       <div className="w-full bg-gray-900 pt-16 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-pastel text-gray-900 rounded-full text-sm font-medium mt-8 mb-4 border border-green-400">
+            <div className="inline-flex items-center px-4 py-2 bg-pastel text-white rounded-full text-sm font-medium mt-8 mb-4 border border-green-400">
               <svg className="w-4 h-4 mr-2" stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M16 16.5l3-4.5 3 4.5"></path><path d="M2 8.5l3 4.5 3-4.5"></path><path d="M7 13h10"></path><path d="M12 21V7"></path><path d="M5 13H2"></path><path d="M19 13h3"></path></svg>
               AI-Powered Legal Research
             </div>
