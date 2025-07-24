@@ -23,8 +23,8 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
 
     try {
       const response = await legalAPI.queryJudgments(query, numResults);
-      setResults(response.judgments);
-      onResults?.(response.judgments);
+      setResults(response.data.results);
+      onResults?.(response.data.results);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while searching");
     } finally {
@@ -169,13 +169,6 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
 function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const getRelevanceColor = (score: number) => {
-    if (score >= 0.8) return "bg-professional text-white";
-    if (score >= 0.6) return "bg-professional-light text-white";
-    if (score >= 0.4) return "bg-beige-300 text-professional";
-    return "bg-beige-200 text-professional-light";
-  };
-
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
       {/* Header */}
@@ -187,20 +180,17 @@ function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }
             </div>
             <div>
               <h4 className="text-lg font-bold text-gray-900">
-                {judgment.case_number}
+                {judgment.metadata.case_number}
               </h4>
               <p className="text-sm text-gray-600">
-                {judgment.judgment_date}
+                {judgment.metadata.judgment_date}
               </p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getRelevanceColor(judgment.score)}`}>
-              {(judgment.score * 100).toFixed(0)}% Relevant
-            </span>
-            {judgment.source_url && (
+            {judgment.metadata.source_url && (
               <a
-                href={judgment.source_url}
+                href={judgment.metadata.source_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-gray-900 font-medium text-sm flex items-center space-x-1 transition-colors"
@@ -220,7 +210,7 @@ function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }
         <div className="mb-4">
             <p className="text-gray-800 leading-relaxed">
                 <span className="text-sm font-semibold uppercase tracking-wider text-gray-500 mr-2">Parties:</span>
-                {judgment.parties}
+                {judgment.metadata.parties}
             </p>
         </div>
 
@@ -246,17 +236,17 @@ function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }
           <div className="text-gray-700 leading-relaxed">
             {isExpanded ? (
               <div className="bg-beige-50 rounded-lg p-4">
-                <p className="whitespace-pre-wrap">{judgment.text}</p>
+                <p className="whitespace-pre-wrap">{judgment.content}</p>
               </div>
             ) : (
               <div className="bg-beige-50 rounded-lg p-4">
                 <p>
-                  {judgment.text.length > 400 
-                    ? `${judgment.text.substring(0, 400)}...` 
-                    : judgment.text
+                  {judgment.content.length > 400 
+                    ? `${judgment.content.substring(0, 400)}...` 
+                    : judgment.content
                   }
                 </p>
-                {judgment.text.length > 400 && (
+                {judgment.content.length > 400 && (
                   <p className="text-sm text-gray-500 mt-2">
                     Click Show More to read the complete judgment
                   </p>

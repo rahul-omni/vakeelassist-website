@@ -725,7 +725,13 @@ export default function Home() {
             <div className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
               <div className="p-8 border-b border-gray-200">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Solo Practitioner</h3>
-                <div className="text-5xl font-extrabold text-gray-900 mb-6">₹1,500<span className="text-gray-500 text-sm">/month</span></div>
+                <div className="text-5xl font-extrabold text-gray-900 mb-6 flex">
+                  <div className="line-through">
+                    <span className="text-gray-500">₹1,500</span>
+                    <span className="block text-gray-500 text-sm mt-1">/month</span>
+                  </div>
+                  <span className="ml-3 font-extrabold text-gray-900 text-2xl text-center">Free for 2 months</span>
+                </div>
                 </div>
               <div className="p-8 bg-gray-50">
                 <Button className="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg">Start Free Trial</Button>
@@ -736,7 +742,7 @@ export default function Home() {
               <div className="absolute top-0 inset-x-0 bg-gray-800 text-white text-center py-1 text-sm font-medium">MOST POPULAR</div>
               <div className="p-8 border-b border-gray-200 mt-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Law Firm</h3>
-                <div className="text-5xl font-extrabold text-gray-900 mb-6">₹25,000<span className="text-gray-500 text-sm">/month</span></div>
+                <div className="text-5xl font-extrabold text-gray-900 mb-6">₹6,000<span className="text-gray-500 text-sm">/month</span></div>
                 </div>
               <div className="p-8 bg-gray-100">
                 <Button className="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg">Start Free Trial</Button>

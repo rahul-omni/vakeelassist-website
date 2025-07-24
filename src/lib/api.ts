@@ -1,18 +1,17 @@
 export interface Judgment {
-  score: number;
-  case_number: string;
-  parties: string;
-  judgment_date: string;
-  file: string;
-  source_url: string;
-  text: string;
+  content: string;
+  metadata: Record<string, string>;
 }
 
-export interface QueryResponse {
-  success: boolean;
-  query: string;
-  total_results: number;
-  judgments: Judgment[];
+interface QueryResponse {
+  message: string;
+  data: {
+    query: string;
+    results: {
+      content: string;
+      metadata: Record<string, string>;
+    }[];
+  };
 }
 
 export interface HealthResponse {
@@ -67,13 +66,13 @@ export class LegalAPI {
 
   async queryJudgments(question: string, numResults: number = 3): Promise<QueryResponse> {
     try {
-      const response = await fetch(`${this.baseUrl}/query`, {
+      const response = await fetch(`api/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          question: question.trim(),
+          query: question.trim(),
           num_results: Math.min(numResults, 10) // API limits to 10 max
         }),
       });
