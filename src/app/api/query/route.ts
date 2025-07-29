@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           query: query.trim(),
-          num_results
+          k: num_results
         }),
       });
 
