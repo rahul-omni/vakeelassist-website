@@ -260,7 +260,7 @@ function JudgmentCard({ judgment, index, searchedQuery }: { judgment: Judgment; 
                 <p>
                   {judgment.content.length > 400
                     ? highlightMatches(judgment.content.substring(0, 400))
-                    : judgment.content
+                    : highlightMatches(judgment.content)
                   }
                 </p>
                 {judgment.content.length > 400 && (
