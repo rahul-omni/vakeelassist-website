@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { legalAPI, Judgment } from "../lib/api";
 
 interface LegalSearchProps {
@@ -12,6 +12,7 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<Judgment[]>([]);
   const [numResults, setNumResults] = useState(3);
+  const [searchedQuery, setSearchedQuery] = useState("");
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +26,7 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
       const response = await legalAPI.queryJudgments(query, numResults);
       setResults(response.data.results);
       onResults?.(response.data.results);
+      setSearchedQuery(response.data.query);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while searching");
     } finally {
@@ -78,7 +80,7 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
               ))}
             </div>
           </div>
-          
+
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="flex items-center space-x-4">
               <label htmlFor="numResults" className="text-sm font-semibold text-gray-700">
@@ -96,13 +98,12 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
                 <option value={10}>10 results</option>
               </select>
             </div>
-            
+
             <button
               type="submit"
               disabled={isLoading || !query.trim()}
-              className={`w-full lg:w-auto bg-black hover:bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold transition-colors ${
-                isLoading || !query.trim() ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+              className={`w-full lg:w-auto bg-black hover:bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold transition-colors ${isLoading || !query.trim() ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
             >
               {isLoading ? (
                 <div className="flex items-center space-x-3">
@@ -154,10 +155,10 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
               <div className="text-sm font-medium text-gray-900">{new Date().toLocaleTimeString()}</div>
             </div>
           </div>
-          
+
           <div className="space-y-6">
             {results.map((judgment, index) => (
-              <JudgmentCard key={index} judgment={judgment} index={index + 1} />
+              <JudgmentCard key={index} judgment={judgment} index={index + 1} searchedQuery={searchedQuery} />
             ))}
           </div>
         </div>
@@ -166,8 +167,24 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
   );
 }
 
-function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }) {
+function JudgmentCard({ judgment, index, searchedQuery }: { judgment: Judgment; index: number; searchedQuery: string }) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  function highlightMatches(content: string): React.ReactNode[] {
+    const queryWords = new Set(searchedQuery.toLowerCase().split(/\s+/));
+
+    return content.split(/\b/).map((word, i) => {
+      const lowerWord = word.toLowerCase();
+      if (queryWords.has(lowerWord)) {
+        return (
+          <span key={i} className="bg-yellow-300">
+            {word}
+          </span>
+        );
+      }
+      return <React.Fragment key={i}>{word}</React.Fragment>;
+    });
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
@@ -188,9 +205,9 @@ function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            {judgment.metadata.source_url && (
+            {judgment.metadata.judgment_url && (
               <a
-                href={judgment.metadata.source_url}
+                href={judgment.metadata.judgment_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-gray-900 font-medium text-sm flex items-center space-x-1 transition-colors"
@@ -208,10 +225,10 @@ function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }
       {/* Content */}
       <div className="p-6">
         <div className="mb-4">
-            <p className="text-gray-800 leading-relaxed">
-                <span className="text-sm font-semibold uppercase tracking-wider text-gray-500 mr-2">Parties:</span>
-                {judgment.metadata.parties}
-            </p>
+          <p className="text-gray-800 leading-relaxed">
+            <span className="text-sm font-semibold uppercase tracking-wider text-gray-500 mr-2">Parties:</span>
+            {judgment.metadata.parties}
+          </p>
         </div>
 
         <div className="border-t border-gray-200 pt-4">
@@ -222,27 +239,27 @@ function JudgmentCard({ judgment, index }: { judgment: Judgment; index: number }
               className="text-gray-600 hover:text-gray-900 font-medium text-sm flex items-center space-x-1 transition-colors"
             >
               <span>{isExpanded ? "Show Less" : "Show More"}</span>
-              <svg 
-                className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </button>
           </div>
-          
+
           <div className="text-gray-700 leading-relaxed">
             {isExpanded ? (
               <div className="bg-beige-50 rounded-lg p-4">
-                <p className="whitespace-pre-wrap">{judgment.content}</p>
+                <p className="whitespace-pre-wrap">{highlightMatches(judgment.content)}</p>
               </div>
             ) : (
               <div className="bg-beige-50 rounded-lg p-4">
                 <p>
-                  {judgment.content.length > 400 
-                    ? `${judgment.content.substring(0, 400)}...` 
+                  {judgment.content.length > 400
+                    ? highlightMatches(judgment.content.substring(0, 400))
                     : judgment.content
                   }
                 </p>
