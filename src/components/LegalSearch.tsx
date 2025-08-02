@@ -1,7 +1,10 @@
-"use client";
-import React, { useState } from "react";
-import { legalAPI, Judgment } from "../lib/api";
 
+"use client";
+import React, { useEffect, useState } from "react";
+import { legalAPI, Judgment } from "../lib/api";
+import { FeedbackForm } from "./FeedbackPopup";
+import { getFingerprint } from "@/lib/fingerprint";
+ 
 interface LegalSearchProps {
   onResults?: (results: Judgment[]) => void;
 }
@@ -14,6 +17,77 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
   const [numResults, setNumResults] = useState(3);
   const [searchedQuery, setSearchedQuery] = useState("");
 
+  // Add this state to your LegalSearch component
+const [showFeedback, setShowFeedback] = useState(false);
+const [feedbackTimer, setFeedbackTimer] = useState<NodeJS.Timeout | null>(null);
+// Add this state to track if feedback has been submitted
+const [deviceId, setDeviceId] = useState<string | null>(null);
+
+const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+
+// Add this effect to handle the feedback popup timer
+useEffect(() => {
+  return () => {
+    if (feedbackTimer) {
+      clearTimeout(feedbackTimer);
+    }
+  };
+}, [feedbackTimer])
+
+ 
+
+useEffect(() => {
+  // Check if feedback was already submitted
+  const hasSubmitted = 
+    localStorage.getItem('feedbackSubmitted') ||
+    sessionStorage.getItem('feedbackSubmitted') ||
+    document.cookie.includes('feedbackSubmitted=true');
+  
+  setFeedbackSubmitted(!!hasSubmitted);
+}, []);
+
+  
+
+  // Get device ID on component mount
+useEffect(() => {
+  const initializeDeviceId = async () => {
+    try {
+      const id = await getFingerprint();
+      setDeviceId(id);
+    } catch (error) {
+      console.error("Failed to get device ID:", error);
+    }
+  };
+  initializeDeviceId();
+}, []);
+
+// Update feedback check
+useEffect(() => {
+  const checkFeedbackStatus = async () => {
+    if (!deviceId) return;
+    
+    try {
+      const response = await fetch('/api/check-feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ deviceId }),
+      });
+      
+      const { hasSubmitted } = await response.json();
+      setFeedbackSubmitted(hasSubmitted);
+    } catch (error) {
+      console.error("Feedback check failed:", error);
+      setFeedbackSubmitted(
+        localStorage.getItem('feedbackSubmitted') === 'true'
+      );
+    }
+  };
+
+  checkFeedbackStatus();
+}, [deviceId]);
+// Add this function to handle feedback submission
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -21,12 +95,26 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
     setIsLoading(true);
     setError(null);
     setResults([]);
+    
+    if (feedbackTimer) {
+    clearTimeout(feedbackTimer);
+    setFeedbackTimer(null);
+  }
 
     try {
       const response = await legalAPI.queryJudgments(query, numResults);
       setResults(response.data.results);
       onResults?.(response.data.results);
       setSearchedQuery(response.data.query);
+
+      // Only set timer if we have results and no prior submission for 10 seconds
+    if (response.data.results.length > 0 && !feedbackSubmitted && deviceId) {
+      setFeedbackTimer(
+        setTimeout(() => setShowFeedback(true), 10000)
+      );
+    }
+       
+    
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while searching");
     } finally {
@@ -34,6 +122,8 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
     }
   };
 
+  
+  
   return (
     <div className="w-full max-w-5xl mx-auto">
       {/* Search Form */}
@@ -163,6 +253,23 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
           </div>
         </div>
       )}
+
+       
+{showFeedback && !feedbackSubmitted && (
+  <FeedbackForm
+    onClose={() => setShowFeedback(false)}
+    query={searchedQuery}
+    resultsCount={results.length}
+    onSuccessfulSubmit={() => { 
+      setFeedbackSubmitted(true)
+
+      localStorage.setItem('feedbackSubmitted', 'true');
+      //setFeedbackSubmitted(true);
+    }}
+   // setFeedbackSubmitted={setFeedbackSubmitted}
+    
+  />
+)}
     </div>
   );
 }

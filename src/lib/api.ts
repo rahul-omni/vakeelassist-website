@@ -1,3 +1,5 @@
+import { getDeviceId } from "./deviceId";
+
 export interface Judgment {
   content: string;
   metadata: Record<string, string>;
@@ -88,7 +90,58 @@ export class LegalAPI {
       throw error;
     }
   }
+
+  // Add to your existing LegalAPI class
+  
+async submitFeedback(data: {
+  email?: string;
+  rating: number;
+  suggestion?: string;
+  deviceId?: string;
+}): Promise<{ success: boolean; message?: string; code?: string }> {
+  try {
+    // Get device ID if not provided
+    const deviceId = data.deviceId || await getDeviceId();
+    
+    const response = await fetch('/api/website-feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...data,
+        deviceId
+      }),
+    });
+
+    const result = await response.json();
+    
+    if (!response.ok) {
+      return {
+        success: false,
+        message: result.message || 'Request failed',
+        code: result.code // Include error code if available
+      };
+    }
+
+    return {
+      success: true,
+      ...result
+    };
+    
+  } catch (error) {
+    console.error('Network error:', error);
+    return {
+      success: false,
+      message: 'Network error - please try again',
+      code: 'NETWORK_ERROR'
+    };
+  }
 }
+}
+
+
+
 
 // Export a default instance
 export const legalAPI = new LegalAPI(); 
