@@ -246,19 +246,18 @@ model users {
   user_cases                                            user_cases[]
 }
 
- model WebsiteFeedback {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email      String?  @db.VarChar(255)
-  rating     Int      @default(1)
-  suggestion String?
-   ipAddress  String?  @db.VarChar(45)  // For IP-based tracking
-    fingerprint String?  @unique
-    deviceId   String?  @db.VarChar(255) // For device tracking
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  
-  @@unique([email])    // Ensures unique email submissions
-  @@index([ipAddress]) // For IP-based duplicate checking
+model WebsiteFeedback {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email       String?  @unique @db.VarChar(255)
+  rating      Int      @default(1)
+  suggestion  String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  ipAddress   String?  @db.VarChar(45)
+  fingerprint String?  @unique
+  deviceId    String?  @db.VarChar(255)
+
+  @@index([ipAddress])
   @@index([createdAt])
   @@index([rating])
   @@map("website_feedback")
