@@ -1,7 +1,6 @@
-
 "use client";
-import React, { useEffect, useState } from "react";
-import { legalAPI, Judgment } from "../lib/api";
+import React, { useRef, useEffect, useState } from "react";
+import { legalAPI, Judgment,  } from "../lib/api";
 import { FeedbackForm } from "./FeedbackPopup";
 import { getFingerprint } from "@/lib/fingerprint";
  
@@ -15,7 +14,15 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<Judgment[]>([]);
   const [numResults, setNumResults] = useState(3);
+  const searchRef = useRef<HTMLDivElement | null>(null);
   const [searchedQuery, setSearchedQuery] = useState("");
+  const [summaryLoading, setSummaryLoading] = useState(false);
+  const [openSummary, setOpenSummary] = useState(false);
+  const [summary, setSummary] = useState("");
+
+  const scrollToSearchDiv = () => {
+    searchRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // Add this state to your LegalSearch component
 const [showFeedback, setShowFeedback] = useState(false);
@@ -120,6 +127,23 @@ useEffect(() => {
     } finally {
       setIsLoading(false);
     }
+    scrollToSearchDiv();
+  };
+
+ const loadUrlSummary = async (url: string) => {
+    try {
+      setSummaryLoading(true);
+      setOpenSummary(true);
+
+      const resp = await legalAPI.loadSummary(url);
+      setSummary(resp?.summary || 'No summary available.');
+
+    } catch (error) {
+      console.error('Error loading summary:', error);
+      setSummary('Failed to fetch summary.');
+    } finally {
+      setSummaryLoading(false);
+    }
   };
 
   
@@ -213,21 +237,68 @@ useEffect(() => {
         </form>
       </div>
 
-      {/* Error Display */}
-      {error && (
-        <div className="mb-8 p-6 bg-red-50 border-2 border-red-200 rounded-lg">
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-semibold text-red-800">Search Error</h3>
-              <p className="text-red-700 mt-1">{error}</p>
-            </div>
+      {openSummary && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
+          onClick={() => {
+            setOpenSummary(false)
+            setSummary("");
+          }}
+        >
+          <div className="bg-white w-full max-w-2xl p-6 rounded shadow-lg relative">
+            <button
+              onClick={() => {
+                setOpenSummary(false)
+                setSummary("");
+              }}
+              className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl"
+            >
+              ×
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Summary</h2>
+            {summaryLoading ? (
+              <div className="flex justify-center items-center h-40">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-gray-800">
+                {summary || 'No summary available.'}
+              </div>
+            )}
           </div>
         </div>
+      )}
+
+
+      {/* Error Display */}
+      {error && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+        >
+          <div className="bg-white w-full max-w-2xl p-6 rounded shadow-lg relative">
+            <button
+              onClick={() => setOpenSummary(false)}
+              className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl"
+            >
+              ×
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Summary</h2>
+            {summaryLoading ? (
+              <div className="flex justify-center items-center h-40">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-gray-800">
+                {summary || 'No summary available.'}
+              </div>
+            )}
+          </div>
+        </div>
+
+
+
       )}
 
       {/* Results Section */}
@@ -248,11 +319,12 @@ useEffect(() => {
 
           <div className="space-y-6">
             {results.map((judgment, index) => (
-              <JudgmentCard key={index} judgment={judgment} index={index + 1} searchedQuery={searchedQuery} />
+              <JudgmentCard key={index} judgment={judgment} index={index + 1} searchedQuery={searchedQuery} loadUrlSummary={loadUrlSummary} />
             ))}
           </div>
         </div>
       )}
+
 
        
 {showFeedback && !feedbackSubmitted && (
@@ -270,27 +342,91 @@ useEffect(() => {
     
   />
 )}
+
+      <div ref={searchRef} />
+
     </div>
   );
 }
 
-function JudgmentCard({ judgment, index, searchedQuery }: { judgment: Judgment; index: number; searchedQuery: string }) {
+function JudgmentCard({ judgment, index, searchedQuery, loadUrlSummary }: { judgment: Judgment; index: number; searchedQuery: string; loadUrlSummary: (url: string) => Promise<void>; }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   function highlightMatches(content: string): React.ReactNode[] {
-    const queryWords = new Set(searchedQuery.toLowerCase().split(/\s+/));
+    if (!searchedQuery.trim()) return [content];
 
-    return content.split(/\b/).map((word, i) => {
-      const lowerWord = word.toLowerCase();
-      if (queryWords.has(lowerWord)) {
-        return (
-          <span key={i} className="bg-yellow-300">
-            {word}
-          </span>
-        );
+    const queryWords = searchedQuery.toLowerCase().split(/\s+/).filter(Boolean);
+
+    const regex = /\b\w+\b/g;
+    const parts: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    const getSimilarity = (a: string, b: string): number => {
+      const distance = levenshteinDistance(a, b);
+      return 1 - distance / Math.max(a.length, b.length);
+    };
+
+    const levenshteinDistance = (a: string, b: string): number => {
+      const dp = Array(a.length + 1).fill(null).map(() => Array(b.length + 1).fill(0));
+      for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+      for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+
+      for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+          dp[i][j] = Math.min(
+            dp[i - 1][j] + 1,
+            dp[i][j - 1] + 1,
+            dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+          );
+        }
       }
-      return <React.Fragment key={i}>{word}</React.Fragment>;
-    });
+      return dp[a.length][b.length];
+    };
+
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(content)) !== null) {
+      const word = match[0];
+      const start = match.index;
+      const end = regex.lastIndex;
+
+      if (lastIndex < start) {
+        parts.push(content.slice(lastIndex, start));
+      }
+
+      const lowerWord = word.toLowerCase();
+      let exactMatch = false;
+      let partialMatch = false;
+
+      for (const q of queryWords) {
+        const similarity = getSimilarity(lowerWord, q);
+        if (similarity === 1) {
+          exactMatch = true;
+          break;
+        } else if (similarity >= 0.7) {
+          partialMatch = true;
+        }
+      }
+
+      if (exactMatch) {
+        parts.push(
+          <span key={start} className="bg-yellow-200">{word}</span>
+        );
+      } else if (partialMatch) {
+        parts.push(
+          <span key={start} className="bg-yellow-100">{word}</span>
+        );
+      } else {
+        parts.push(word);
+      }
+
+      lastIndex = end;
+    }
+
+    if (lastIndex < content.length) {
+      parts.push(content.slice(lastIndex));
+    }
+
+    return parts;
   }
 
   return (
@@ -370,11 +506,23 @@ function JudgmentCard({ judgment, index, searchedQuery }: { judgment: Judgment; 
                     : highlightMatches(judgment.content)
                   }
                 </p>
-                {judgment.content.length > 400 && (
-                  <p className="text-sm text-gray-500 mt-2">
-                    Click Show More to read the complete judgment
-                  </p>
-                )}
+                <div className="flex items-center justify-between">
+                  <span>
+                    {judgment.content.length > 400 && (
+                      <p className="text-sm text-gray-500 mt-2">
+                        Click Show More to read the complete judgment
+                      </p>
+                    )}
+                  </span>
+                  <button
+                    onClick={() => {
+                      loadUrlSummary(judgment.metadata.judgment_url);
+                    }}
+                    className="text-blue-600 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
+                  >
+                    View Summary
+                  </button>
+                </div>
               </div>
             )}
           </div>

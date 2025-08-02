@@ -11,11 +11,14 @@
     "migrate": "prisma migrate deploy"
   },
   "dependencies": {
+    "@opendocsg/pdf2md": "^0.2.1",
     "@fingerprintjs/fingerprintjs": "^4.6.2",
     "@prisma/client": "^6.13.0",
     "@types/fingerprintjs__fingerprintjs": "^2.1.0",
     "aos": "^2.3.4",
-    "next": "^15.4.5",
+    "next": "15.3.1",
+    "openai": "^5.11.0",
+  
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

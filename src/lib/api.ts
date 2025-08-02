@@ -90,9 +90,7 @@ export class LegalAPI {
       throw error;
     }
   }
-
-  // Add to your existing LegalAPI class
-  
+   
 async submitFeedback(data: {
   email?: string;
   rating: number;
@@ -138,10 +136,31 @@ async submitFeedback(data: {
     };
   }
 }
+
+ async loadSummary(url: string): Promise<{ summary: string }> {
+    try {
+      const response = await fetch('/api/summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Summary fetch failed:', error);
+      throw error;
+    }
+  }  
+  
 }
-
-
-
 
 // Export a default instance
 export const legalAPI = new LegalAPI(); 
