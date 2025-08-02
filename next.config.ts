@@ -2,7 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-   transpilePackages: ['@fingerprintjs/fingerprintjs'],
+   
+     output: "standalone" // Recommended for production
 };
 
 export default nextConfig;
