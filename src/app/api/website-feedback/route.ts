@@ -1,14 +1,22 @@
 
 
+
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+interface FeedbackRequest {
+  email?: string;
+  rating: number;
+  suggestion?: string;
+  deviceId?: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { email, rating, suggestion, deviceId } = await request.json();
-      // Proper way to get IP in Next.js
+    const { email, rating, suggestion, deviceId } = await request.json() as FeedbackRequest;
+    // Proper way to get IP in Next.js
     const ip = request.headers.get('x-real-ip') || 
                 request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                 'unknown';
@@ -71,11 +79,11 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Database error:', error);
 
     // Handle specific Prisma errors
-    if (error.code === 'P2002') {
+    if (error instanceof Error && 'code' in error && error.code === 'P2002') {
       return NextResponse.json(
         { 
           success: false, 
@@ -91,8 +99,8 @@ export async function POST(request: NextRequest) {
         success: false,
         message: 'Failed to submit feedback',
         ...(process.env.NODE_ENV === 'development' && {
-          error: error.message,
-          stack: error.stack
+          error: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined
         })
       },
       { status: 500 }

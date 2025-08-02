@@ -11,7 +11,12 @@ interface FeedbackFormProps {
   onSuccessfulSubmit?: () => void;
 }
 
-export const FeedbackForm = ({ onClose, query, resultsCount, onSuccessfulSubmit }: FeedbackFormProps) => {
+export const FeedbackForm = ({ onClose, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    query, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    resultsCount,
+     onSuccessfulSubmit }: FeedbackFormProps) => {
   const [email, setEmail] = useState("");
   const [rating, setRating] = useState<number>(0);
   const [suggestion, setSuggestion] = useState("");
