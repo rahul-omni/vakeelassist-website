@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import { legalAPI, Judgment,  } from "../lib/api";
+import { legalAPI, Judgment, } from "../lib/api";
 import { FeedbackForm } from "./FeedbackPopup";
 import { getFingerprint } from "@/lib/fingerprint";
- 
+
 interface LegalSearchProps {
   onResults?: (results: Judgment[]) => void;
 }
@@ -25,35 +25,35 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
   };
 
   // Add this state to your LegalSearch component
-const [showFeedback, setShowFeedback] = useState(false);
-const [feedbackTimer, setFeedbackTimer] = useState<NodeJS.Timeout | null>(null);
-// Add this state to track if feedback has been submitted
-const [deviceId, setDeviceId] = useState<string | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackTimer, setFeedbackTimer] = useState<NodeJS.Timeout | null>(null);
+  // Add this state to track if feedback has been submitted
+  const [deviceId, setDeviceId] = useState<string | null>(null);
 
-const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
-// Add this effect to handle the feedback popup timer
-useEffect(() => {
-  return () => {
-    if (feedbackTimer) {
-      clearTimeout(feedbackTimer);
-    }
-  };
-}, [feedbackTimer])
+  // Add this effect to handle the feedback popup timer
+  useEffect(() => {
+    return () => {
+      if (feedbackTimer) {
+        clearTimeout(feedbackTimer);
+      }
+    };
+  }, [feedbackTimer])
 
- 
 
-useEffect(() => {
-  // Check if feedback was already submitted
-  const hasSubmitted = 
-    localStorage.getItem('feedbackSubmitted') ||
-    sessionStorage.getItem('feedbackSubmitted') ||
-    document.cookie.includes('feedbackSubmitted=true');
-  
-  setFeedbackSubmitted(!!hasSubmitted);
-}, []);
 
-  
+  useEffect(() => {
+    // Check if feedback was already submitted
+    const hasSubmitted =
+      localStorage.getItem('feedbackSubmitted') ||
+      sessionStorage.getItem('feedbackSubmitted') ||
+      document.cookie.includes('feedbackSubmitted=true');
+
+    setFeedbackSubmitted(!!hasSubmitted);
+  }, []);
+
+
 
 
   // Get device ID and check feedback status
@@ -63,10 +63,10 @@ useEffect(() => {
         // Get device ID first
         const id = await getFingerprint();
         setDeviceId(id);
-        
+
         // Check both local storage and API
         const localSubmitted = localStorage.getItem('feedbackSubmitted') === 'true';
-        
+
         if (localSubmitted) {
           setFeedbackSubmitted(true);
           return;
@@ -80,10 +80,10 @@ useEffect(() => {
           },
           body: JSON.stringify({ deviceId: id }),
         });
-        
+
         const { hasSubmitted } = await response.json();
         setFeedbackSubmitted(hasSubmitted);
-        
+
         // Cache API result in localStorage
         if (hasSubmitted) {
           localStorage.setItem('feedbackSubmitted', 'true');
@@ -100,19 +100,99 @@ useEffect(() => {
     initializeFeedbackCheck();
   }, []);
 
-// Update feedback check
-useEffect(() => {
-  const checkFeedbackStatus = async () => {
-    if (!deviceId) return;
-    
-    try {
+  // Update feedback check
+  useEffect(() => {
+    const checkFeedbackStatus = async () => {
+      if (!deviceId) return;
+
+      try {
 
         // First check localStorage for quick response
-      const localSubmitted = localStorage.getItem('feedbackSubmitted') === 'true';
-      if (localSubmitted) {
-        setFeedbackSubmitted(true);
-        return true;
+        const localSubmitted = localStorage.getItem('feedbackSubmitted') === 'true';
+        if (localSubmitted) {
+          setFeedbackSubmitted(true);
+          return true;
+        }
+        const response = await fetch('/api/check-feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ deviceId }),
+        });
+
+        if (response.ok) {
+          const { hasSubmitted } = await response.json();
+          setFeedbackSubmitted(hasSubmitted);
+          if (hasSubmitted) {
+            localStorage.setItem('feedbackSubmitted', 'true');
+          }
+        }
+
+        // const { hasSubmitted } = await response.json();
+        // setFeedbackSubmitted(hasSubmitted);
+      } catch (error) {
+        console.error("Feedback check failed:", error);
+        setFeedbackSubmitted(
+          localStorage.getItem('feedbackSubmitted') === 'true'
+        );
       }
+    };
+
+
+
+    checkFeedbackStatus();
+  }, [deviceId]);
+
+  // Add this function to handle feedback submission
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setIsLoading(true);
+    setError(null);
+    setResults([]);
+
+    if (feedbackTimer) {
+      clearTimeout(feedbackTimer);
+      setFeedbackTimer(null);
+    }
+
+    const isTestingDevice = localStorage.getItem("isTestingDevice")
+
+    const testBoolean = isTestingDevice == 'true' ? true : false;
+
+    try {
+      const response = await legalAPI.queryJudgments(query, numResults, testBoolean);
+      if (!isTestingDevice) {
+        localStorage.setItem("isTestingDevice", 'false');
+      }
+      setResults(response.data.results);
+      onResults?.(response.data.results);
+      setSearchedQuery(response.data.query);
+
+      if (response.data.results.length > 0 && !feedbackSubmitted) {
+        const deviceId = await getFingerprint();
+        const hasSubmitted = localStorage.getItem('feedbackSubmitted') === 'true' ||
+          (await checkServerFeedbackStatus(deviceId));
+
+        if (!hasSubmitted) {
+          setFeedbackTimer(
+            setTimeout(() => setShowFeedback(true), 10000)
+          );
+        }
+      }
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred while searching");
+    } finally {
+      setIsLoading(false);
+    }
+    scrollToSearchDiv()
+  };
+
+  async function checkServerFeedbackStatus(deviceId: string): Promise<boolean> {
+    try {
       const response = await fetch('/api/check-feedback', {
         method: 'POST',
         headers: {
@@ -121,105 +201,16 @@ useEffect(() => {
         body: JSON.stringify({ deviceId }),
       });
 
-        if (response.ok) {
+      if (response.ok) {
         const { hasSubmitted } = await response.json();
-        setFeedbackSubmitted(hasSubmitted);
-        if (hasSubmitted) {
-          localStorage.setItem('feedbackSubmitted', 'true');
-        }
+        return hasSubmitted;
       }
-      
-      // const { hasSubmitted } = await response.json();
-      // setFeedbackSubmitted(hasSubmitted);
+      return false;
     } catch (error) {
-      console.error("Feedback check failed:", error);
-      setFeedbackSubmitted(
-        localStorage.getItem('feedbackSubmitted') === 'true'
-      );
+      console.error("Error checking feedback status:", error);
+      return false;
     }
-  };
-
-
-
-  checkFeedbackStatus();
-}, [deviceId]);
-
-console.log("hasesubmitter",feedbackSubmitted);
-
-// Add this function to handle feedback submission
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-
-    setIsLoading(true);
-    setError(null);
-    setResults([]);
-    
-    if (feedbackTimer) {
-    clearTimeout(feedbackTimer);
-    setFeedbackTimer(null);
   }
-
-  const isTestingDevice = localStorage.getItem("isTestingDevice")
-
-  const testBoolean = isTestingDevice == 'true' ? true : false;
-
-    try {
-      const response = await legalAPI.queryJudgments(query, numResults, testBoolean);
-      if(!isTestingDevice){
-        localStorage.setItem("isTestingDevice", 'false');
-      }
-      setResults(response.data.results);
-      onResults?.(response.data.results);
-      setSearchedQuery(response.data.query);
-
-      // Only set timer if we have results and no prior submission for 10 seconds
-    // if (response.data.results.length > 0 && !feedbackSubmitted && deviceId) {
-    //   setFeedbackTimer(
-    //     setTimeout(() => setShowFeedback(true), 10000)
-    //   );
-    // }
-         // Only show feedback if we have results and no prior submission
-    if (response.data.results.length > 0 && !feedbackSubmitted) {
-      const deviceId = await getFingerprint();
-      const hasSubmitted = localStorage.getItem('feedbackSubmitted') === 'true' || 
-                         (await checkServerFeedbackStatus(deviceId));
-      
-      if (!hasSubmitted) {
-        setFeedbackTimer(
-          setTimeout(() => setShowFeedback(true), 10000)
-        );
-      }
-    }
-    
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred while searching");
-    } finally {
-      setIsLoading(false);
-    }
-    scrollToSearchDiv()
-  };
-  
-  async function checkServerFeedbackStatus(deviceId: string): Promise<boolean> {
-  try {
-    const response = await fetch('/api/check-feedback', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ deviceId }),
-    });
-    
-    if (response.ok) {
-      const { hasSubmitted } = await response.json();
-      return hasSubmitted;
-    }
-    return false;
-  } catch (error) {
-    console.error("Error checking feedback status:", error);
-    return false;
-  }
-}
   const loadUrlSummary = async (url: string) => {
     try {
       setSummaryLoading(true);
@@ -385,10 +376,9 @@ console.log("hasesubmitter",feedbackSubmitted);
           </div>
         </div>
 
-
-
       )}
 
+      <div ref={searchRef} />
       {/* Results Section */}
       {results.length > 0 && (
         <div className="space-y-6">
@@ -414,25 +404,22 @@ console.log("hasesubmitter",feedbackSubmitted);
       )}
 
 
-       
-{showFeedback && !feedbackSubmitted && (
-  <FeedbackForm
-    onClose={() => setShowFeedback(false)}
-    query={searchedQuery}
-    resultsCount={results.length}
-    onSuccessfulSubmit={() => { 
-      setFeedbackSubmitted(true)
 
-      localStorage.setItem('feedbackSubmitted', 'true');
-      //setFeedbackSubmitted(true);
-    }}
-   // setFeedbackSubmitted={setFeedbackSubmitted}
-    
-  />
-)}
+      {showFeedback && !feedbackSubmitted && (
+        <FeedbackForm
+          onClose={() => setShowFeedback(false)}
+          query={searchedQuery}
+          resultsCount={results.length}
+          onSuccessfulSubmit={() => {
+            setFeedbackSubmitted(true)
 
-      <div ref={searchRef} />
+            localStorage.setItem('feedbackSubmitted', 'true');
+            //setFeedbackSubmitted(true);
+          }}
+        // setFeedbackSubmitted={setFeedbackSubmitted}
 
+        />
+      )}
     </div>
   );
 }
