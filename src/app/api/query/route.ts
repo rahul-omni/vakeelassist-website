@@ -10,7 +10,7 @@ function getTodayDate(): Date {
   return today;
 }
 
-export async function incrementApiAnalytics(route: string) {
+async function incrementApiAnalytics(route: string) {
   const today = getTodayDate();
 
   try {
