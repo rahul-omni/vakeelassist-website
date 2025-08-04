@@ -443,7 +443,19 @@ function JudgmentCard({ judgment, index, searchedQuery, loadUrlSummary }: { judg
   function highlightMatches(content: string): React.ReactNode[] {
     if (!searchedQuery.trim()) return [content];
 
-    const queryWords = searchedQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    const stopWords = new Set([
+      'a', 'an', 'the',
+      'and', 'or', 'but',
+      'of', 'in', 'on', 'to', 'for', 'with', 'at', 'by', 'from',
+      'is', 'are', 'was', 'were', 'be', 'been',
+      'this', 'that', 'these', 'those',
+      'as', 'it', 'its', 'if', 'then', 'so',
+      'not', 'no', 'nor', 'do', 'does', 'did',
+    ]);
+    const queryWords = searchedQuery
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(word => word && !stopWords.has(word));
 
     const regex = /\b\w+\b/g;
     const parts: React.ReactNode[] = [];
