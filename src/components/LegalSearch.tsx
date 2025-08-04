@@ -55,18 +55,50 @@ useEffect(() => {
 
   
 
-  // Get device ID on component mount
-useEffect(() => {
-  const initializeDeviceId = async () => {
-    try {
-      const id = await getFingerprint();
-      setDeviceId(id);
-    } catch (error) {
-      console.error("Failed to get device ID:", error);
-    }
-  };
-  initializeDeviceId();
-}, []);
+
+  // Get device ID and check feedback status
+  useEffect(() => {
+    const initializeFeedbackCheck = async () => {
+      try {
+        // Get device ID first
+        const id = await getFingerprint();
+        setDeviceId(id);
+        
+        // Check both local storage and API
+        const localSubmitted = localStorage.getItem('feedbackSubmitted') === 'true';
+        
+        if (localSubmitted) {
+          setFeedbackSubmitted(true);
+          return;
+        }
+
+        // Only check API if no local record
+        const response = await fetch('/api/check-feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ deviceId: id }),
+        });
+        
+        const { hasSubmitted } = await response.json();
+        setFeedbackSubmitted(hasSubmitted);
+        
+        // Cache API result in localStorage
+        if (hasSubmitted) {
+          localStorage.setItem('feedbackSubmitted', 'true');
+        }
+      } catch (error) {
+        console.error("Feedback check failed:", error);
+        // Fallback to localStorage only
+        setFeedbackSubmitted(
+          localStorage.getItem('feedbackSubmitted') === 'true'
+        );
+      }
+    };
+
+    initializeFeedbackCheck();
+  }, []);
 
 // Update feedback check
 useEffect(() => {
@@ -74,6 +106,13 @@ useEffect(() => {
     if (!deviceId) return;
     
     try {
+
+        // First check localStorage for quick response
+      const localSubmitted = localStorage.getItem('feedbackSubmitted') === 'true';
+      if (localSubmitted) {
+        setFeedbackSubmitted(true);
+        return true;
+      }
       const response = await fetch('/api/check-feedback', {
         method: 'POST',
         headers: {
@@ -81,9 +120,17 @@ useEffect(() => {
         },
         body: JSON.stringify({ deviceId }),
       });
+
+        if (response.ok) {
+        const { hasSubmitted } = await response.json();
+        setFeedbackSubmitted(hasSubmitted);
+        if (hasSubmitted) {
+          localStorage.setItem('feedbackSubmitted', 'true');
+        }
+      }
       
-      const { hasSubmitted } = await response.json();
-      setFeedbackSubmitted(hasSubmitted);
+      // const { hasSubmitted } = await response.json();
+      // setFeedbackSubmitted(hasSubmitted);
     } catch (error) {
       console.error("Feedback check failed:", error);
       setFeedbackSubmitted(
@@ -92,8 +139,13 @@ useEffect(() => {
     }
   };
 
+
+
   checkFeedbackStatus();
 }, [deviceId]);
+
+console.log("hasesubmitter",feedbackSubmitted);
+
 // Add this function to handle feedback submission
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,12 +167,23 @@ useEffect(() => {
       setSearchedQuery(response.data.query);
 
       // Only set timer if we have results and no prior submission for 10 seconds
-    if (response.data.results.length > 0 && !feedbackSubmitted && deviceId) {
-      setFeedbackTimer(
-        setTimeout(() => setShowFeedback(true), 10000)
-      );
+    // if (response.data.results.length > 0 && !feedbackSubmitted && deviceId) {
+    //   setFeedbackTimer(
+    //     setTimeout(() => setShowFeedback(true), 10000)
+    //   );
+    // }
+         // Only show feedback if we have results and no prior submission
+    if (response.data.results.length > 0 && !feedbackSubmitted) {
+      const deviceId = await getFingerprint();
+      const hasSubmitted = localStorage.getItem('feedbackSubmitted') === 'true' || 
+                         (await checkServerFeedbackStatus(deviceId));
+      
+      if (!hasSubmitted) {
+        setFeedbackTimer(
+          setTimeout(() => setShowFeedback(true), 10000)
+        );
+      }
     }
-       
     
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while searching");
@@ -129,7 +192,27 @@ useEffect(() => {
     }
     scrollToSearchDiv()
   };
-
+  
+  async function checkServerFeedbackStatus(deviceId: string): Promise<boolean> {
+  try {
+    const response = await fetch('/api/check-feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ deviceId }),
+    });
+    
+    if (response.ok) {
+      const { hasSubmitted } = await response.json();
+      return hasSubmitted;
+    }
+    return false;
+  } catch (error) {
+    console.error("Error checking feedback status:", error);
+    return false;
+  }
+}
   const loadUrlSummary = async (url: string) => {
     try {
       setSummaryLoading(true);

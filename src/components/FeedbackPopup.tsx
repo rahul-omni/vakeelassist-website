@@ -172,7 +172,7 @@ export const FeedbackForm = ({ onClose,
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email (optional)
+              Email
             </label>
             <input
               type="email"

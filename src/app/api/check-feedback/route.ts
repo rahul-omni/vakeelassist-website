@@ -1,12 +1,12 @@
+
 // app/api/check-feedback/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'edge' // Optional: Consider using Edge runtime if appropriate
+// Removed the Edge runtime since Prisma doesn't support it
 
 export async function POST(request: NextRequest) {
-  // Debugging: Log the incoming request
   console.log('[check-feedback] Incoming request')
   
   try {
@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
     
     const { deviceId } = requestBody
     
-     const ip = request.headers.get('x-real-ip') || 
-                request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
-                'unknown';
+    const ip = request.headers.get('x-real-ip') || 
+               request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+               'unknown';
 
     console.log('[check-feedback] Identifiers:', { deviceId, ip })
 
@@ -44,10 +44,14 @@ export async function POST(request: NextRequest) {
 
     console.log('[check-feedback] DB query result:', existing)
 
-    return NextResponse.json({
+    return NextResponse.json(
+      
+      {
       hasSubmitted: !!existing,
-      identifierUsed: deviceId ? 'deviceId' : 'ipAddress'
-    })
+        identifierUsed: deviceId ? 'deviceId' : 'ipAddress'
+    }
+  
+  )
 
   } catch (error) {
     console.error('[check-feedback] Error:', error)
