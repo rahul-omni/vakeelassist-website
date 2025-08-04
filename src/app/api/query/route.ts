@@ -39,6 +39,22 @@ async function incrementApiAnalytics(route: string) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    
+    // Example: Extract fields
+    const { query, num_results } = body;
+    
+    const response = await fetch(`${API_BASE_URL}/query`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: query.trim(),
+        k: num_results
+      }),
+    });
+    
+    const res = await response.json();
     const host = req.headers.get('host') || '';
 
     const isDev = host.includes('localhost') || host.startsWith('127.0.0.1');
@@ -47,23 +63,7 @@ export async function POST(req: NextRequest) {
       await incrementApiAnalytics('/query');
     }
 
-    // Example: Extract fields
-    const { query, num_results } = body;
-
-    const response = await fetch(`${API_BASE_URL}/query`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: query.trim(),
-          k: num_results
-        }),
-      });
-
-    const res = await response.json();
-
-    return NextResponse.json({ message: 'Post created successfully', data: res });
+    return NextResponse.json({ message: 'Post fetched successfully', data: res });
   } catch {
     return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });
   }
