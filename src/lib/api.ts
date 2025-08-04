@@ -159,7 +159,6 @@ async submitFeedback(data: {
       throw error;
     }
   }  
-  
 }
 
 // Export a default instance
