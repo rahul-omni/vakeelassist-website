@@ -410,7 +410,7 @@ function JudgmentCard({ judgment, index, searchedQuery, loadUrlSummary }: { judg
                     onClick={() => {
                       loadUrlSummary(judgment.metadata.judgment_url);
                     }}
-                    className="text-blue-600 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer"
+                    className="px-4 py-2 text-sm font-medium text-blue-600 bg-white border border-blue-500 rounded hover:bg-blue-50 hover:text-blue-700 transition-colors cursor-pointer"
                   >
                     View Summary
                   </button>

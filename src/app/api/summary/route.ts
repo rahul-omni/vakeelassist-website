@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
-        { role: 'system', content: 'You are a legal assistant. Summarize the following legal PDF text:' },
+        { role: 'system', content: 'You are a legal assistant. Summarize the following legal PDF text in 100 words:' },
         { role: 'user', content: inputText }
       ],
       temperature: 0.5
