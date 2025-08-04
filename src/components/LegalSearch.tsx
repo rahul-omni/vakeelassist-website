@@ -160,8 +160,13 @@ console.log("hasesubmitter",feedbackSubmitted);
     setFeedbackTimer(null);
   }
 
+  const testBoolean = localStorage.getItem("isTestingDevice") == 'false' ? false : true;
+
     try {
-      const response = await legalAPI.queryJudgments(query, numResults);
+      const response = await legalAPI.queryJudgments(query, numResults, testBoolean);
+      if(!testBoolean){
+        localStorage.setItem("isTestingDevice", 'false');
+      }
       setResults(response.data.results);
       onResults?.(response.data.results);
       setSearchedQuery(response.data.query);

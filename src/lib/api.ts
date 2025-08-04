@@ -66,7 +66,7 @@ export class LegalAPI {
     }
   }
 
-  async queryJudgments(question: string, numResults: number = 3): Promise<QueryResponse> {
+  async queryJudgments(question: string, numResults: number = 3, isTesting: boolean = false): Promise<QueryResponse> {
     try {
       const response = await fetch(`api/query`, {
         method: 'POST',
@@ -75,7 +75,8 @@ export class LegalAPI {
         },
         body: JSON.stringify({
           query: question.trim(),
-          num_results: Math.min(numResults, 10) // API limits to 10 max
+          num_results: Math.min(numResults, 10), // API limits to 10 max,
+          is_testing: isTesting
         }),
       });
 

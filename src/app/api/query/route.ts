@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     
     // Example: Extract fields
-    const { query, num_results } = body;
+    const { query, num_results, is_testing } = body;
     
     const response = await fetch(`${API_BASE_URL}/query`, {
       method: 'POST',
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
 
     const isDev = host.includes('localhost') || host.startsWith('127.0.0.1');
 
-    if (!isDev) {
+    if (!isDev && !is_testing) {
       await incrementApiAnalytics('/query');
     }
 
