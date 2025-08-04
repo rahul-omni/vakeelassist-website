@@ -160,11 +160,13 @@ console.log("hasesubmitter",feedbackSubmitted);
     setFeedbackTimer(null);
   }
 
-  const testBoolean = localStorage.getItem("isTestingDevice") == 'false' ? false : true;
+  const isTestingDevice = localStorage.getItem("isTestingDevice")
+
+  const testBoolean = isTestingDevice == 'true' ? true : false;
 
     try {
       const response = await legalAPI.queryJudgments(query, numResults, testBoolean);
-      if(!testBoolean){
+      if(!isTestingDevice){
         localStorage.setItem("isTestingDevice", 'false');
       }
       setResults(response.data.results);
