@@ -1,11 +1,51 @@
 // app/api/post/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 const API_BASE_URL = process.env.RAG_BACKEND;
+
+function getTodayDate(): Date {
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0); // normalize to midnight UTC
+  return today;
+}
+
+export async function incrementApiAnalytics(route: string) {
+  const today = getTodayDate();
+
+  try {
+    await prisma.apiAnalytics.upsert({
+      where: {
+        route_date: {
+          route,
+          date: today,
+        },
+      },
+      update: {
+        count: { increment: 1 },
+      },
+      create: {
+        route,
+        date: today,
+        count: 1,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to update API analytics:', error);
+  }
+}
+
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const host = req.headers.get('host') || '';
+
+    const isDev = host.includes('localhost') || host.startsWith('127.0.0.1');
+
+    if (!isDev) {
+      await incrementApiAnalytics('/query');
+    }
 
     // Example: Extract fields
     const { query, num_results } = body;

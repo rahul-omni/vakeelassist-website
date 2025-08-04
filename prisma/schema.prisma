@@ -263,6 +263,18 @@ model WebsiteFeedback {
   @@map("website_feedback")
 }
 
+model ApiAnalytics {
+  id        Int      @id @default(autoincrement())
+  route     String
+  date      DateTime
+  count     Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@map("api_analytics") // actual DB table name
+  @@unique([route, date])
+}
+
+
 enum FileReviewStatus {
   PENDING
   IN_REVIEW
