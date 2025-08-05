@@ -29,21 +29,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const queryConditions = {
-      OR: [
-        ...(deviceId ? [{ deviceId }] : []),
-        ...(ip ? [{ ipAddress: ip }] : [])
-      ]
-    }
-    console.log('[check-feedback] DB query conditions:', queryConditions)
+     
 
-    const existing = await prisma.websiteFeedback.findFirst({
-      where: queryConditions,
-      select: { id: true }
-    })
+     const existing = await prisma.websiteFeedback.findFirst({
+  where: deviceId
+    ? { deviceId } // primary check
+    : { ipAddress: ip } // fallback only if no deviceId
+});
 
-    console.log('[check-feedback] DB query result:', existing)
 
+    console.log('[check-feedback] DB query result:', existing?.deviceId ? 'Found existing submission' : 'No existing submission')
+   console.log("existing.deviceId:", existing?.deviceId);
+   
     return NextResponse.json(
       
       {
