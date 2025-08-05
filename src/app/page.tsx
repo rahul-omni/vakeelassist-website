@@ -1364,12 +1364,12 @@ export default function Home() {
 
           {/* Additional Info */}
 
-          <div className="mt-16 text-center">
+          {/* <div className="mt-16 text-center">
             <p className="text-gray-600 mb-4">Need help deciding?</p>
             <button className="bg-black text-white border border-gray-700 hover:border-white hover:bg-gray-700 px-6 py-2.5 rounded-lg transition-colors duration-300 shadow-md">
               Compare all features
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -1564,13 +1564,32 @@ export default function Home() {
             </div>
           </div>
 
+           
           {/* CTA at bottom */}
-          <div className="text-center mt-16">
-            <p className="text-gray-600 mb-4">Still have questions?</p>
-            <button className="bg-black text-white border border-gray-700 hover:bg-gray-700 px-6 py-2.5 rounded-lg transition-colors duration-300 shadow-md">
-              Contact Our Support Team
-            </button>
-          </div>
+<div className="text-center mt-16">
+  <p className="text-gray-600 mb-4">Still have questions?</p>
+  <div className="flex justify-center space-x-4">
+    <button className="bg-black text-white border border-gray-700 hover:bg-gray-700 px-6 py-2.5 rounded-lg transition-colors duration-300 shadow-md flex items-center">
+      Contact Our Support Team
+    </button>
+    <a 
+      href="https://wa.me/919903758670" // Replace with your actual WhatsApp number
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-lg transition-colors duration-300 shadow-md flex items-center"
+    >
+      <svg 
+        className="w-5 h-5 mr-2" 
+        fill="currentColor" 
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-6.29 3.617c-.545.244-1.213.4-1.861.381-.653-.019-1.369-.198-1.369-.198s1.171-3.579 1.273-3.912c.102-.332.173-.332.239-.332.074 0 .148.074.223.248.074.174.298.607.371.785.074.174.149.26.223.26.074 0 .149-.074.298-.26.149-.182.26-.306.387-.471.124-.165.26-.289.347-.289.074 0 .124.025.173.124.05.099.223.533.434 1.005.198.454.384.84.384 1.133.001.304-.1.534-.296.785"/>
+      </svg>
+      WhatsApp Us
+    </a>
+  </div>
+</div>
         </div>
       </div>
       
