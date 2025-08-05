@@ -29,14 +29,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Check for existing submission
-    const existing = await prisma.websiteFeedback.findFirst({
-      where: {
-        OR: [
-          ...(deviceId ? [{ deviceId }] : []),
-          ...(ip ? [{ ipAddress: ip }] : [])
-        ]
-      }
-    })
+     const existing = await prisma.websiteFeedback.findFirst({
+  where: deviceId
+    ? { deviceId } // use only deviceId if available
+    : { ipAddress: ip } // fallback only if deviceId is not available
+})
+    console.log('Existing feedback check:', existing?.deviceId ? 'Found existing submission' : 'No existing submission')
 
     if (existing) {
       return NextResponse.json(
