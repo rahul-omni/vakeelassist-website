@@ -1473,17 +1473,17 @@ export default function Home() {
             {/* Column 2 */}
             <div className="space-y-6">
               {/* FAQ Item 3 */}
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  Is my client data secure?
-                </h3>
-                <p className="text-gray-600">
-                  Absolutely. We use enterprise-grade encryption, regular
-                  security audits, and comply with all legal data protection
-                  standards. Your clients' confidential information remains
-                  protected at all times.
-                </p>
-              </div>
+               <div className="bg-gray-50 p-6 rounded-lg">
+  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+    Is my client data secure?
+  </h3>
+  <p className="text-gray-600">
+    Absolutely. We use enterprise-grade encryption, regular
+    security audits, and comply with all legal data protection
+    standards. Your clients&apos; confidential information remains
+    protected at all times.
+  </p>
+</div>
               {/* FAQ Item 5 */}
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
