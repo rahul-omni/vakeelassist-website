@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { legalAPI, Judgment, } from "../lib/api";
 import { FeedbackForm } from "./FeedbackPopup";
 import { getFingerprint } from "@/lib/fingerprint";
+import posthog from "posthog-js";
 
 interface LegalSearchProps {
   onResults?: (results: Judgment[]) => void;
@@ -169,13 +170,22 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
       }
       setResults(response.data.results);
       onResults?.(response.data.results);
+      if (
+        typeof window !== 'undefined' &&
+        !isTestingDevice &&
+        !window.location.hostname.includes('localhost') &&
+        !window.location.hostname.includes('127.0.0.1')
+      ) {
+        posthog.capture('rag_api_called', {
+          source: 'web',
+        });
+      }
       setSearchedQuery(response.data.query);
 
       if (response.data.results.length > 0 && !feedbackSubmitted) {
         const deviceId = await getFingerprint();
         const hasSubmitted = localStorage.getItem('feedbackSubmitted') === 'true' ||
           (await checkServerFeedbackStatus(deviceId));
-
         if (!hasSubmitted) {
           setFeedbackTimer(
             setTimeout(() => setShowFeedback(true), 10000)

@@ -76,7 +76,6 @@ export const FeedbackForm = ({ onClose,
     }
   };
   
-  console.log("showSuccess outside handleSubmit:", showSuccess);
   
   if (showSuccess) {
     return (

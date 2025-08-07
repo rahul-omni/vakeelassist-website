@@ -7,19 +7,13 @@ export const dynamic = 'force-dynamic'
 // Removed the Edge runtime since Prisma doesn't support it
 
 export async function POST(request: NextRequest) {
-  console.log('[check-feedback] Incoming request')
-  
   try {
     const requestBody = await request.json()
-    console.log('[check-feedback] Request body:', requestBody)
-    
     const { deviceId } = requestBody
     
     const ip = request.headers.get('x-real-ip') || 
                request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                'unknown';
-
-    console.log('[check-feedback] Identifiers:', { deviceId, ip })
 
     if (!deviceId && !ip) {
       console.warn('[check-feedback] No identifier provided')
@@ -36,10 +30,6 @@ export async function POST(request: NextRequest) {
     ? { deviceId } // primary check
     : { ipAddress: ip } // fallback only if no deviceId
 });
-
-
-    console.log('[check-feedback] DB query result:', existing?.deviceId ? 'Found existing submission' : 'No existing submission')
-   console.log("existing.deviceId:", existing?.deviceId);
    
     return NextResponse.json(
       
