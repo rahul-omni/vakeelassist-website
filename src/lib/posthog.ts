@@ -8,6 +8,7 @@ export const initPosthog = () => {
     posthog.init(process.env.NEXT_PUBLIC_POST_HOG_API_TOKEN || "", {
       api_host: process.env.NEXT_PUBLIC_POST_HOG_API_HOST,
       capture_pageview: true,
+      autocapture: false, 
     })
   }
 }
