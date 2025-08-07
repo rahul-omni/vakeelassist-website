@@ -9,6 +9,7 @@ export const initPosthog = () => {
       api_host: process.env.NEXT_PUBLIC_POST_HOG_API_HOST,
       capture_pageview: true,
       autocapture: false, 
+      disable_session_recording: true,
     })
   }
 }
