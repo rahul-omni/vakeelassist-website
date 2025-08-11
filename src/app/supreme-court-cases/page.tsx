@@ -64,13 +64,6 @@ export default function SupremeCourtCases() {
               </div> */}
 
               <div className="hidden md:ml-10 md:flex md:space-x-8 items-center">
-                {/* Features Link */}
-                <Link
-                  href="/#features"
-                  className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium transition-colors duration-200"
-                >
-                  Features
-                </Link>
 
                 {/* Supreme Court Cases Link - Active State */}
                 <Link
@@ -145,12 +138,6 @@ export default function SupremeCourtCases() {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-16 inset-x-0 bg-white shadow-lg rounded-b-lg z-50 border border-gray-200">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                href="/#features"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-              >
-                Features
-              </Link>
               <Link
                 href="/supreme-court-cases"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-gray-100"

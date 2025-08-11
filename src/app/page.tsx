@@ -324,12 +324,6 @@ export default function Home() {
               </div>
               <div className="hidden md:ml-8 md:flex md:space-x-8 items-center">
                 <a
-                  href="#features"
-                  className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium"
-                >
-                  Features
-                </a>
-                <a
                   href="/supreme-court-cases"
                   className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium"
                 >
@@ -398,12 +392,6 @@ export default function Home() {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-16 inset-x-0 bg-white shadow-lg rounded-b-lg z-50">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a
-                href="#features"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-              >
-                Features
-              </a>
               <a
                 href="/supreme-court-cases"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
@@ -650,11 +638,6 @@ export default function Home() {
                 platform drafts briefs, analyzes precedents, manages discovery,
                 and ensures regulatory compliance with unprecedented accuracy.
               </p>
-              <div className="flex justify-center lg:justify-start">
-                <Button className="bg-blue-700 hover:bg-blue-800 text-white py-3 px-8 rounded-lg text-lg shadow-lg transition-all duration-300">
-                  Try Now
-                </Button>
-              </div>
             </div>
             {/* Animated Input and Streaming Output - now in right column */}
             <div
@@ -686,7 +669,7 @@ export default function Home() {
       </div>
 
       {/* How It Works Section - Dark background */}
-      <div id="how-it-works" className="w-full bg-gray-900 py-20">
+      <div id="features" className="w-full bg-gray-900 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-blue-400 font-semibold text-sm md:text-base">
