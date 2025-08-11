@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -310,23 +312,15 @@ export default function Home() {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                {/* Updated logo and brand name back to Vakeel Assist */}
-                <svg
-                  className="w-8 h-8 text-gray-800"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  ></path>
-                </svg>
-                <span className="ml-2 text-xl font-semibold text-gray-900">
-                  Vakeel Assist
-                </span>
+                <Link href="/" className="cursor-pointer">
+                  <Image
+                    src="/images/VAlogo.png"
+                    alt="VA Logo"
+                    width={150}
+                    height={50}
+                    priority
+                  />
+                </Link>
               </div>
               <div className="hidden md:ml-8 md:flex md:space-x-8 items-center">
                 <a
@@ -785,12 +779,6 @@ export default function Home() {
                   requiring no changes
                 </span>{" "}
                 to your current workflow.
-              </p>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                Schedule a Demo
-              </Button>
-              <p className="mt-4 text-gray-500 text-sm">
-                No credit card required • 30-minute personalized demo
               </p>
             </div>
           </div>
@@ -1569,9 +1557,6 @@ export default function Home() {
 <div className="text-center mt-16">
   <p className="text-gray-600 mb-4">Still have questions?</p>
   <div className="flex justify-center space-x-4">
-    <button className="bg-black text-white border border-gray-700 hover:bg-gray-700 px-6 py-2.5 rounded-lg transition-colors duration-300 shadow-md flex items-center">
-      Contact Our Support Team
-    </button>
     <a 
       href="https://wa.me/919903758670" // Replace with your actual WhatsApp number
       target="_blank"

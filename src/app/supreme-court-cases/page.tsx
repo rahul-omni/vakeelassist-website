@@ -4,6 +4,7 @@ import { Button } from "../../components/ui/button";
 import Link from "next/link";
 import LegalSearch from "../../components/LegalSearch";
 import "aos/dist/aos.css";
+import Image from "next/image";
 
 export default function SupremeCourtCases() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,24 +19,15 @@ export default function SupremeCourtCases() {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <div className="w-8 h-8 bg-professional rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    ></path>
-                  </svg>
-                </div>
-                <span className="ml-3 text-xl font-semibold text-gray-900">
-                  Vakeel Assist
-                </span>
+                <Link href="/" className="cursor-pointer">
+                    <Image
+                      src="/images/VAlogo.png"
+                      alt="VA Logo"
+                      width={150}
+                      height={50}
+                      priority
+                    />
+                </Link>
               </div>
 
               {/* <div className="hidden md:ml-10 md:flex md:space-x-8 items-center">
