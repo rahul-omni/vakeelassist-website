@@ -106,7 +106,7 @@ export default function SupremeCourtCases() {
                 rel="noopener noreferrer"
               >
                 <Button className="bg-professional hover:bg-professional-light text-white py-2 px-6 rounded-md font-medium transition-colors">
-                  Login
+                  Portal
                 </Button>
               </a>
             </div>

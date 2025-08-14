@@ -13,7 +13,6 @@
   "dependencies": {
     "@opendocsg/pdf2md": "^0.2.1",
     "@fingerprintjs/fingerprintjs": "^4.6.2",
-    "@opendocsg/pdf2md": "^0.2.1",
     "@prisma/client": "^6.13.0",
     "@types/fingerprintjs__fingerprintjs": "^2.1.0",
     "aos": "^2.3.4",

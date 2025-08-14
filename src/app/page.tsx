@@ -358,7 +358,7 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <Button className="bg-gray-800 hover:bg-gray-900 text-white py-2 px-4">
-                  Login
+                  Portal
                 </Button>
               </a>
             </div>
@@ -424,7 +424,7 @@ export default function Home() {
                   className="w-full"
                 >
                   <Button className="w-full bg-gray-800 hover:bg-gray-900 text-white py-2">
-                    Login
+                    Portal
                   </Button>
                 </a>
               </div>

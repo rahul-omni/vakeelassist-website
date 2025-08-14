@@ -54,6 +54,7 @@ model extracted_judgments {
   is_synced       Boolean         @default(false)
   created_at      DateTime        @default(now())
   updated_at      DateTime
+  summary         String?         @default("")
   case_management case_management @relation(fields: [case_id], references: [id])
 
   @@unique([case_id, judgment_url])
@@ -90,6 +91,7 @@ model file_system_nodes {
   created_by                                String?             @db.Uuid
   updated_by                                String?             @db.Uuid
   user_id                                   String?             @db.Uuid
+  is_default                                Boolean             @default(false)
   file_reviews                              file_reviews[]
   users_file_system_nodes_created_byTousers users?              @relation("file_system_nodes_created_byTousers", fields: [created_by], references: [id])
   file_system_nodes                         file_system_nodes?  @relation("file_system_nodesTofile_system_nodes", fields: [parent_id], references: [id])
@@ -270,10 +272,9 @@ model ApiAnalytics {
   count     Int      @default(1)
   createdAt DateTime @default(now())
 
-  @@map("api_analytics") // actual DB table name
   @@unique([route, date])
+  @@map("api_analytics")
 }
-
 
 enum FileReviewStatus {
   PENDING
