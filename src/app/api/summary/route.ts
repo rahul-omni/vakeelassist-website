@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       });
     } else {
       // Otherwise, create new entry
-      return NextResponse.json({ error: 'Failed to fetch PDF' }, { status: 500 });
+      return NextResponse.json({ summary });
     }
 
     return NextResponse.json({ summary });
