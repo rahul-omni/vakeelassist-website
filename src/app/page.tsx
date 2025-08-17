@@ -1569,6 +1569,12 @@ export default function Home() {
             Transforming legal practice through AI-powered document drafting,
             workflow automation, and case management.
           </p>
+            <div className="mb-6 text-gray-300">
+              <div className="font-semibold text-base mb-1">CORPORATE OFFICE</div>
+              <div>The Circle, 3rd Floor, Huda City Centre Metro Station,</div>
+              <div>Sector 29, Gurugram,</div>
+              <div>Haryana 122002</div>
+            </div>
           <p className="text-gray-500">
             © 2023 Vakeel Assist. All rights reserved.
           </p>
