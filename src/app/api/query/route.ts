@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     
     // Example: Extract fields
-    const { query, num_results, is_testing } = body;
+    const { query, is_testing } = body;
     
     const response = await fetch(`${API_BASE_URL}/query`, {
       method: 'POST',
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         query: query.trim(),
-        k: num_results
+        k: 5
       }),
     });
     
