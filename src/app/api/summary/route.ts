@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pdf2md from "@opendocsg/pdf2md";
-import OpenAI from "openai";
 import prisma from '@/lib/prisma'
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { openai } from '@/lib/openai';
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,5 +1,5 @@
 import { getDeviceId } from "./deviceId";
-
+import { openai } from "@/lib/openai";
 export interface Judgment {
   content: string;
   metadata: Record<string, string>;
@@ -16,9 +16,16 @@ interface QueryResponse {
   };
 }
 
+interface ChatQueryResponse {
+  message: string;
+}
+
 export interface HealthResponse {
   status: string;
   database_size: number;
+  message: string;
+}
+interface ContextQueryResponse {
   message: string;
 }
 
@@ -91,54 +98,78 @@ export class LegalAPI {
       throw error;
     }
   }
-   
-async submitFeedback(data: {
-  email?: string;
-  rating: number;
-  suggestion?: string;
-  deviceId?: string;
-}): Promise<{ success: boolean; message?: string; code?: string }> {
-  try {
-    // Get device ID if not provided
-    const deviceId = data.deviceId || await getDeviceId();
-    
-    const response = await fetch('/api/website-feedback', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...data,
-        deviceId
-      }),
-    });
 
-    const result = await response.json();
-    
-    if (!response.ok) {
+  async queryContext(
+    initialQuery: string,
+    question: string,
+    context: unknown
+  ): Promise<ChatQueryResponse> {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, context, initialQuery }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Query failed:", error);
+      throw error;
+    }
+  }
+
+  async submitFeedback(data: {
+    email?: string;
+    rating: number;
+    suggestion?: string;
+    deviceId?: string;
+  }): Promise<{ success: boolean; message?: string; code?: string }> {
+    try {
+      // Get device ID if not provided
+      const deviceId = data.deviceId || await getDeviceId();
+
+      const response = await fetch('/api/website-feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          deviceId
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: result.message || 'Request failed',
+          code: result.code // Include error code if available
+        };
+      }
+
+      return {
+        success: true,
+        ...result
+      };
+
+    } catch (error) {
+      console.error('Network error:', error);
       return {
         success: false,
-        message: result.message || 'Request failed',
-        code: result.code // Include error code if available
+        message: 'Network error - please try again',
+        code: 'NETWORK_ERROR'
       };
     }
-
-    return {
-      success: true,
-      ...result
-    };
-    
-  } catch (error) {
-    console.error('Network error:', error);
-    return {
-      success: false,
-      message: 'Network error - please try again',
-      code: 'NETWORK_ERROR'
-    };
   }
-}
 
- async loadSummary(url: string): Promise<{ summary: string }> {
+  async loadSummary(url: string): Promise<{ summary: string }> {
     try {
       const response = await fetch('/api/summary', {
         method: 'POST',
@@ -159,7 +190,7 @@ async submitFeedback(data: {
       console.error('Summary fetch failed:', error);
       throw error;
     }
-  }  
+  }
 }
 
 // Export a default instance

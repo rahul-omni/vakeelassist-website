@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, ReactNode } from "react";
 import { legalAPI, Judgment, } from "../lib/api";
 import { FeedbackForm } from "./FeedbackPopup";
 import { getFingerprint } from "@/lib/fingerprint";
@@ -9,18 +9,30 @@ interface LegalSearchProps {
   onResults?: (results: Judgment[]) => void;
 }
 
+interface Message {
+  text: ReactNode,
+  role: string,
+  isLoader?: boolean
+}
+
 export default function LegalSearch({ onResults }: LegalSearchProps) {
   const [query, setQuery] = useState("");
+  const [initialQuery, setInitialQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<Judgment[]>([]);
   const [numResults, setNumResults] = useState(3);
+  const chatRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
   const [searchedQuery, setSearchedQuery] = useState("");
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [openSummary, setOpenSummary] = useState(false);
   const [summary, setSummary] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
 
+  const scrollToChatDiv = () => {
+    chatRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   const scrollToSearchDiv = () => {
     searchRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -148,11 +160,28 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
   // Add this function to handle feedback submission
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessages([
+      {
+        text: "",
+        role: "system",
+        isLoader: true,
+      },
+      {
+        text: (
+          <span>
+            {query}
+          </span>
+        ),
+        role: "user"
+      }
+    ])
     if (!query.trim()) return;
 
     setIsLoading(true);
+    setQuery('');
     setError(null);
     setResults([]);
+    setInitialQuery(query);
 
     if (feedbackTimer) {
       clearTimeout(feedbackTimer);
@@ -184,21 +213,85 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
 
       if (response.data.results.length > 0 && !feedbackSubmitted) {
         const deviceId = await getFingerprint();
-        const hasSubmitted = localStorage.getItem('feedbackSubmitted') === 'true' ||
+        const hasSubmitted =
+          localStorage.getItem("feedbackSubmitted") === "true" ||
           (await checkServerFeedbackStatus(deviceId));
+
         if (!hasSubmitted) {
-          setFeedbackTimer(
-            setTimeout(() => setShowFeedback(true), 10000)
-          );
+          setFeedbackTimer(setTimeout(() => setShowFeedback(true), 10000));
         }
       }
+
+      // grab the first case result for preview
+      const results = (response.data.results || []).slice(0, 3) as Judgment[];
+
+      setMessages([
+        // First system message with up to 3 results grouped together
+        {
+          text: (
+            <div className="space-y-3 text-xs">
+              {results.map((res, idx) => (
+                <div key={idx} className="border-b last:border-none pb-2 last:pb-0">
+                  <div>
+                    <strong>📌 Case:</strong> {res.metadata.parties}
+                  </div>
+                  <div>
+                    <strong>📝 Case No:</strong> {res.metadata.case_number}
+                  </div>
+                  <div>
+                    <strong>👩‍⚖️ Bench:</strong> {res.metadata.bench}
+                  </div>
+                  <div>
+                    <strong>📅 Date:</strong> {res.metadata.judgment_date}
+                  </div>
+                  <a
+                    href={res.metadata.judgment_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent font-semibold underline hover:text-accent/80"
+                  >
+                    🔗 View Full Judgment (PDF)
+                  </a>
+                </div>
+              ))}
+            </div>
+          ),
+          role: "system" as const,
+        },
+
+        // Second system message for context
+        {
+          text: (
+            <span>
+              ✅ I’ve found some results for your query.
+              Showing you <strong>{results.length} case summaries</strong> above.
+              You can{" "}
+              <span
+                onClick={() => scrollToSearchDiv()}
+                className="text-accent font-semibold underline hover:text-accent/80 cursor-pointer"
+              >
+                view all results here
+              </span>{" "}
+              for more details, and feel free to ask follow-up questions based on them.
+            </span>
+          ),
+          role: "system" as const,
+        },
+
+        // User’s query
+        {
+          text: <span>{query}</span>,
+          role: "user" as const,
+        },
+      ]);
+      // removes null if no results
 
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while searching");
     } finally {
       setIsLoading(false);
+      scrollToChatDiv()
     }
-    scrollToSearchDiv()
   };
 
   async function checkServerFeedbackStatus(deviceId: string): Promise<boolean> {
@@ -237,6 +330,52 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
     }
   };
 
+  const handleChat = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setIsLoading(true);
+
+    try {
+      // Add user + loader messages (loader first so it's "above" user in your reverse list)
+      setMessages(prev => [
+        { text: "", role: "system", isLoader: true },
+        { text: query, role: "user" },
+        ...prev,
+      ]);
+
+      // Call your backend API
+      const response = await legalAPI.queryContext(initialQuery, query, results);
+
+      // Replace loader with actual system message
+      setMessages(prev => {
+        const updated = [...prev];
+        if (updated[0]?.isLoader) {
+          updated[0] = { text: response?.message || "⚠️ No response.", role: "system" };
+        }
+        return updated;
+      });
+
+    } catch (error) {
+      console.error("Chat failed:", error);
+
+      // Replace loader with error message
+      setMessages(prev => {
+        const updated = [...prev];
+        if (updated[0]?.isLoader) {
+          updated[0] = { text: "⚠️ Sorry, something went wrong. Please try again.", role: "system" };
+        }
+        return updated;
+      });
+
+    } finally {
+      setQuery("");
+      setIsLoading(false);
+      scrollToChatDiv();
+    }
+  };
+
+
   return (
     <div className="w-full max-w-5xl mx-auto">
       {/* Search Form */}
@@ -245,85 +384,105 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
             Legal Research Query
           </h3>
+          <div ref={chatRef} />
           <p className="text-gray-600 text-lg">
             Enter your legal question in natural language to search Supreme Court judgments
           </p>
         </div>
+        <div className="flex flex-col h-full border rounded-lg bg-gray-100">
+          <div className="flex flex-col h-[600px]">
 
-        <form onSubmit={handleSearch} className="space-y-6">
-          <div>
-            <label htmlFor="query" className="block text-sm font-semibold text-gray-700 mb-3">
-              Legal Question
-            </label>
-            <textarea
-              id="query"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g., What are the damages available for breach of a software development contract where the developer delivered incomplete work?"
-              className="w-full px-6 py-4 bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent resize-none transition-colors text-gray-900 placeholder-gray-400"
-              rows={4}
-              disabled={isLoading}
-            />
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto flex flex-col-reverse p-4 space-y-3 space-y-reverse m-3 rounded-lg bg-white shadow-inner">
+              {messages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-gray-400 text-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-10 w-10 mb-2 text-gray-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M6 4v16l6-4 6 4V4H6z"
+                    />
+                  </svg>
+                  <p className="text-center">Start a conversation to see messages here</p>
+                </div>
+              ) : (messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`flex w-full text-xs mb-2 ${msg.role === "system" ? "justify-start" : "justify-end"
+                    }`}
+                >
+                  <div
+                    className={`max-w-lg px-4 py-2 rounded-lg ${msg.role === "system"
+                        ? "bg-gray-100 text-gray-900"
+                        : "bg-green-600 text-white"
+                      }`}
+                  >
+                    {msg.isLoader ? (
+                      <div className="flex space-x-1">
+                        <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></span>
+                        <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-150"></span>
+                        <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-300"></span>
+                      </div>
+                    ) : (
+                      msg.text
+                    )}
+                  </div>
+                </div>
+              ))
+
+              )}
+            </div>
+
+
+            {/* Input Area */}
+            <form className="border-t p-3 flex items-center space-x-3 bg-gray-50 rounded-lg">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={`e.g., ${messages.length == 0 ? 'What are the damages available for breach of a software development contract where the developer delivered incomplete work? : ' : 'Please summarize the first pdf.'}`}
+                disabled={isLoading}
+                className="flex-1 px-4 py-3 border text-sm rounded-full focus:outline-none focus:ring-1 focus:ring-accent bg-white text-gray-900 placeholder-gray-400"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !query.trim()}
+                onClick={!messages.length ? handleSearch : handleChat}
+                className={`bg-black hover:bg-gray-900 text-white px-5 py-3 text-xs rounded-full font-semibold transition-colors ${isLoading || !query.trim() ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+              >
+                {isLoading ? "..." : "Send"}
+              </button>
+            </form>
+
             {/* Sample Queries */}
-            <div className="mt-4 flex flex-wrap gap-3">
+            {messages.length == 0 && <div className="flex flex-wrap gap-3 px-4 py-3 bg-gray-50 rounded-lg">
               {[
-                'Cite a Supreme Court case on the measure of damages for breach of a construction contract where the contractor abandoned work midway.',
-                'Cite a Supreme Court case discussing the conditions under which anticipatory bail may be denied in cases involving economic offences.',
-                'Cite a Supreme Court case that established the right to privacy as a fundamental right under Article 21 of the Constitution.'
+                "Cite a Supreme Court case on the measure of damages for breach of a construction contract where the contractor abandoned work midway.",
+                "Cite a Supreme Court case discussing the conditions under which anticipatory bail may be denied in cases involving economic offences.",
+                "Cite a Supreme Court case that established the right to privacy as a fundamental right under Article 21 of the Constitution.",
               ].map((sample, idx) => (
                 <button
                   key={idx}
                   type="button"
-                  className="px-4 py-2 rounded-full bg-gray-100 border border-gray-300 text-gray-700 text-sm hover:bg-gray-200 transition-colors"
+                  className="p-2 rounded-full bg-white border border-gray-300 text-gray-700 text-xs hover:bg-gray-200 transition-colors"
                   onClick={() => setQuery(sample)}
                   tabIndex={-1}
                 >
                   {sample}
                 </button>
               ))}
-            </div>
+            </div>}
           </div>
+        </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <label htmlFor="numResults" className="text-sm font-semibold text-gray-700">
-                Results per query:
-              </label>
-              <select
-                id="numResults"
-                value={numResults}
-                onChange={(e) => setNumResults(Number(e.target.value))}
-                className="px-4 py-2 bg-gray-50 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-accent focus:border-accent text-gray-900 font-medium"
-                disabled={isLoading}
-              >
-                <option value={3}>3 results</option>
-                <option value={5}>5 results</option>
-                <option value={10}>10 results</option>
-              </select>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading || !query.trim()}
-              className={`w-full lg:w-auto bg-black hover:bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold transition-colors ${isLoading || !query.trim() ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-            >
-              {isLoading ? (
-                <div className="flex items-center space-x-3">
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                  <span>Searching...</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                  </svg>
-                  <span>Search Judgments</span>
-                </div>
-              )}
-            </button>
-          </div>
-        </form>
       </div>
 
       {openSummary && (
@@ -627,4 +786,5 @@ function JudgmentCard({ judgment, index, searchedQuery, loadUrlSummary }: { judg
       </div>
     </div>
   );
-} 
+}
+
