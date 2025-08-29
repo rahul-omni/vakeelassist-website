@@ -325,9 +325,12 @@ export default function Home() {
               <div className="hidden md:ml-8 md:flex md:space-x-8 items-center">
                 <a
                   href="/supreme-court-cases"
-                  className="text-gray-700 hover:text-gray-900 px-3 py-2 font-medium"
+                  className="relative text-gray-700 hover:text-gray-900 px-3 py-2 font-medium"
                 >
                   Supreme Court Cases
+                  <span className="absolute -top-1 -right-2 text-[10px] bg-red-500 text-white font-semibold px-1.5 py-0.5 rounded-full animate-pulse shadow-md">
+                    NEW
+                  </span>
                 </a>
                 <a
                   href="#pricing"
