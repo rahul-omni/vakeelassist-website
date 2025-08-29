@@ -460,6 +460,14 @@ export default function LegalSearch({ onResults }: LegalSearchProps) {
               >
                 {isLoading ? "..." : "Send"}
               </button>
+              {messages.length > 0 && <button
+                onClick={()=>{
+                  setMessages([])
+                }}
+                className="bg-black hover:bg-blue-900 text-white px-5 py-3 text-xs rounded-full font-semibold transition-colors"
+              >
+                New Search
+              </button>}
             </form>
 
             {/* Sample Queries */}
