@@ -1070,11 +1070,13 @@ export default function Home() {
                     <span className="text-5xl font-extrabold text-gray-900">
                       ₹0
                     </span>
-                    <span className="text-gray-500 ml-2 mb-1">
+                    {/* <span className="text-gray-500 ml-2 mb-1">
                       /first 2 months
-                    </span>
+                    </span> */}
                   </div>
-                  <div className="text-gray-500 mt-1">then ₹1,500/month</div>
+                  <div className="text-white mt-1">.</div>
+                  {/* <div className="text-gray-500 mt-1">then ₹1,500/month</div>
+                */}
                 </div>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center">
