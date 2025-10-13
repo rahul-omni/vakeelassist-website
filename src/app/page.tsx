@@ -1062,7 +1062,7 @@ export default function Home() {
                     Solo Practitioner
                   </h3>
                   <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
-                    FREE TRIAL
+                    FREE 
                   </span>
                 </div>
                 <div className="mb-6">
