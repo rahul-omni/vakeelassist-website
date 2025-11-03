@@ -740,64 +740,61 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            {/* Solo Practitioner Card */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-shadow duration-300">
-              <div className="p-8 pb-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Solo Practitioner
-                  </h3>
-                  <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
-                    FREE 
-                  </span>
-                </div>
-                <div className="mb-6">
-                  <div className="flex items-end">
-                    <span className="text-5xl font-extrabold text-gray-900">
-                      ₹0
-                    </span>
-                    {/* <span className="text-gray-500 ml-2 mb-1">
-                      /first 2 months
-                    </span> */}
-                  </div>
-                  <div className="text-white mt-1">.</div>
-                  {/* <div className="text-gray-500 mt-1">then ₹1,500/month</div>
-                */}
-                </div>
+            
+            {/* Solo Practitioner Card - Dark Style */}
+ <article className="relative rounded-3xl border border-neutral-800/70 bg-neutral-900/60 backdrop-blur shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all duration-300 hover:translate-y-[-2px] hover:border-neutral-700">
+              {/* Optional top-right icon box */}
+  <div className="absolute right-4 top-4 h-8 w-8 rounded-xl bg-neutral-900 grid place-items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="h-4 w-4 text-neutral-400">
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  </div>
 
-                {/* Divider */}
-                <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-neutral-700/60 to-transparent" />
+  <div className="p-8">
+    <h3 className="text-xl font-semibold text-white">Individual</h3>
+    <p className= "mt-2 text-neutral-400 leading-relaxed text-sm">Perfect for individual practitioners.</p>
 
-                {/* Features */}
-                <ul className="space-y-2 text-sm text-neutral-300">
-                  <li className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                    Up to 5 active cases
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                    AI-powered document automation
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                    Email support
-                  </li>
-                </ul>
+    
+     <div className="items-baseline gap-4 mt-4">
+  <div className="flex items-baseline gap-2">
+    <span className="text-neutral-500 line-through text-lg">₹299</span>
+      <span className="text-4xl font-bold text-emerald-400">Free</span>
+  </div>
+  <span className="text-neutral-400 text-sm">per month</span>
+</div>
+    {/* Divider */}
+    <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-neutral-700/60 to-transparent" />
 
-                <div className="mt-8">
-                  <button className="w-full rounded-2xl px-4 py-3 text-sm font-medium bg-neutral-800 text-neutral-100 hover:bg-neutral-700 focus:ring-4 focus:ring-neutral-700/40">
-                    Get started
-                  </button>
-                </div>
-              </div>
-           
-            </div>
+    {/* Features */}
+    <ul className="space-y-3 text-sm text-neutral-300">
+      <li className="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        Up to 5 active cases
+      </li>
+      <li className="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        AI-powered document automation
+      </li>
+      <li className="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        Email support
+      </li>
+    </ul>
+
+    <div className="mt-8">
+      <button className="w-full rounded-2xl px-4 py-3 text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-white focus:ring-4 focus:ring-neutral-700/40">
+        Get started
+      </button>
+    </div>
+  </div>
+</article>
+
          
             {/* Business Plan Card */}
             <article className="relative rounded-3xl border border-neutral-800/70 bg-neutral-900/60 backdrop-blur shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all duration-300 hover:translate-y-[-2px] hover:border-neutral-700">
