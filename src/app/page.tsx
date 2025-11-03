@@ -328,15 +328,15 @@ export default function Home() {
                   {caseAlertsDropdownOpen && (
                     <div className="absolute top-full left-0 mt-2 w-56 bg-black rounded-lg shadow-xl border border-gray-700 z-50" style={{ backgroundColor: '#0f0e0d' }}>
                       <div className="py-2">
-                        <a href="/supreme-court-cases" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        <div className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer">
                           <div className="font-medium">Supreme Court</div>
-                        </a>
-                        <a href="/delhi-high-court" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        </div>
+                        <div className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer">
                           <div className="font-medium">Delhi High Court</div>
-                        </a>
-                        <a href="/delhi-district-courts" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        </div>
+                        <div className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer">
                           <div className="font-medium">Delhi District Courts</div>
-                        </a>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -424,15 +424,15 @@ export default function Home() {
               </div>
               <div className="px-3 py-2">
                 <div className="text-gray-500 text-xs uppercase font-semibold mb-2">Case Alerts</div>
-                <a href="/supreme-court-cases" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
+                <div className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer">
                   Supreme Court
-                </a>
-                <a href="/delhi-high-court" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
+                </div>
+                <div className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer">
                   Delhi High Court
-                </a>
-                <a href="/delhi-district-courts" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
+                </div>
+                <div className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer">
                   Delhi District Courts
-                </a>
+                </div>
               </div>
               <a
                 href="#pricing"
@@ -1175,20 +1175,14 @@ export default function Home() {
             <div>
               <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
               <ul className="space-y-2 text-sm">
-                <li>
-                  <a href="/supreme-court-cases" className="text-neutral-400 hover:text-white transition-colors">
-                    Supreme Court
-                  </a>
+                <li className="text-neutral-400 cursor-pointer hover:text-white transition-colors">
+                  Supreme Court
                 </li>
-                <li>
-                  <a href="/delhi-high-court" className="text-neutral-400 hover:text-white transition-colors">
-                    Delhi High Court
-                  </a>
+                <li className="text-neutral-400 cursor-pointer hover:text-white transition-colors">
+                  Delhi High Court
                 </li>
-                <li>
-                  <a href="/delhi-district-courts" className="text-neutral-400 hover:text-white transition-colors">
-                    Delhi District Courts
-                  </a>
+                <li className="text-neutral-400 cursor-pointer hover:text-white transition-colors">
+                  Delhi District Courts
                 </li>
                 <li>
                   <a href="#features" className="text-neutral-400 hover:text-white transition-colors">
