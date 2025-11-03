@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "../components/ui/button";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -11,10 +11,10 @@ import CauseListAlertsStrip from "../components/CauseListAlertsStrip";
 
 // TypewriterText Component with word-by-word animation
 function TypewriterText() {
-  const texts = [
+  const texts = useMemo(() => [
     "Translate now using Sarvam API",
     "Cause list alerts for Supreme Court and High Court"
-  ];
+  ], []);
   
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [displayedWords, setDisplayedWords] = useState<string[]>([]);
@@ -304,7 +304,7 @@ export default function Home() {
                         </a>
                         <a href="#research" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
                           <div className="font-medium">Legal Research</div>
-                          <div className="text-sm text-gray-500">Access India's largest legal library</div>
+                          <div className="text-sm text-gray-500">Access India&apos;s largest legal library</div>
                         </a>
                         <a href="#drafting" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
                           <div className="font-medium">Document Drafting</div>
@@ -491,7 +491,7 @@ export default function Home() {
                 The Agentic Way to Research, Manage, and Access Law in India
               </h1>
               <p className="text-base md:text-lg text-gray-300 mb-6 max-w-4xl mx-auto leading-relaxed">
-                Get accurate answers, manage cases across courts, and access India's largest free legal library all in one platform built for Indian lawyers.
+                Get accurate answers, manage cases across courts, and access India&apos;s largest free legal library all in one platform built for Indian lawyers.
               </p>
             <div className="flex justify-center gap-4">
               <a
@@ -710,7 +710,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">
-              Choose a plan that's right for you
+              Choose a plan that&apos;s right for you
             </h2>
             <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto mb-6">
               Start with our Individual plan for free. Switch plans or cancel any time.
@@ -739,29 +739,30 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Cards */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Individual Plan Card */}
-            <article className="relative rounded-3xl border border-neutral-800/70 bg-neutral-900/60 backdrop-blur shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all duration-300 hover:translate-y-[-2px] hover:border-neutral-700">
-              {/* Corner cube icon */}
-              <div className="absolute right-4 top-4 h-8 w-8 rounded-xl bg-neutral-800/70 grid place-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-neutral-300">
-                  <path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.2 6.8 3.8v7.9L12 19.8 5.2 15.9V8l6.8-3.8Z" />
-                </svg>
-              </div>
-
-              <div className="flex flex-col h-full p-6 md:p-7">
-                <h3 className="text-xl font-semibold text-white">Individual</h3>
-                <p className="mt-2 text-neutral-400 leading-relaxed text-sm">Perfect for individual practitioners.</p>
-
-                <div className="mt-6">
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-3xl font-bold tracking-tight text-neutral-500 line-through decoration-2">
-                      {pricingMode === 'annual' ? '₹2,999' : '₹299'}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            {/* Solo Practitioner Card */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div className="p-8 pb-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    Solo Practitioner
+                  </h3>
+                  <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                    FREE 
+                  </span>
+                </div>
+                <div className="mb-6">
+                  <div className="flex items-end">
+                    <span className="text-5xl font-extrabold text-gray-900">
+                      ₹0
                     </span>
-                    <span className="text-4xl font-bold tracking-tight text-emerald-400">Free</span>
+                    {/* <span className="text-gray-500 ml-2 mb-1">
+                      /first 2 months
+                    </span> */}
                   </div>
-                  <span className="text-neutral-400 text-sm mt-2">{pricingMode === 'annual' ? 'per year' : 'per month'}</span>
+                  <div className="text-white mt-1">.</div>
+                  {/* <div className="text-gray-500 mt-1">then ₹1,500/month</div>
+                */}
                 </div>
 
                 {/* Divider */}
@@ -795,8 +796,9 @@ export default function Home() {
                   </button>
                 </div>
               </div>
-            </article>
-
+           
+            </div>
+         
             {/* Business Plan Card */}
             <article className="relative rounded-3xl border border-neutral-800/70 bg-neutral-900/60 backdrop-blur shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all duration-300 hover:translate-y-[-2px] hover:border-neutral-700">
               {/* Corner cube icon */}

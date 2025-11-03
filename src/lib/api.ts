@@ -65,27 +65,99 @@ export class LegalAPI {
     }
   }
 
-  async queryJudgments(question: string, numResults: number = 3): Promise<QueryResponse> {
+ async queryJudgments(question: string, numResults: number = 3, isTestingDevice?: boolean): Promise<QueryResponse> {
+  try {
+    const response = await fetch(`${this.baseUrl}/query`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        question: question.trim(),
+        num_results: Math.min(numResults, 10),
+        is_testing_device: isTestingDevice ?? false,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json(); // already JSON
+  } catch (error) {
+    console.error('Query failed:', error);
+    throw error;
+  }
+}
+
+
+    async submitFeedback(data: {
+    email?: string;
+    rating: number;
+    suggestion?: string;
+    deviceId?: string;
+    
+  }): Promise<{ success: boolean; message?: string; code?: string }> {
     try {
-      const response = await fetch(`${this.baseUrl}/query`, {
+      // Get device ID if not provided
+      const deviceId = data.deviceId  //|| await getDeviceId();
+
+      const response = await fetch('/api/website-feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          question: question.trim(),
-          num_results: Math.min(numResults, 10) // API limits to 10 max
+          ...data,
+          deviceId
         }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: result.message || 'Request failed',
+          code: result.code // Include error code if available
+        };
+      }
+
+      return {
+        success: true,
+        ...result
+      };
+
+    } catch (error) {
+      console.error('Network error:', error);
+      return {
+        success: false,
+        message: 'Network error - please try again',
+        code: 'NETWORK_ERROR'
+      };
+    }
+  }
+
+  async loadSummary(url: string): Promise<{ summary: string }> {
+    try {
+      const response = await fetch('/api/summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      const result = await response.json();
+      return result;
     } catch (error) {
-      console.error('Query failed:', error);
+      console.error('Summary fetch failed:', error);
       throw error;
     }
   }

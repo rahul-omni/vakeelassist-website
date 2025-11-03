@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
-import LegalSearch from "../../components/LegalSearch";
+// import LegalSearch from "../../components/LegalSearch";
 import "aos/dist/aos.css";
 import Image from "next/image";
 
@@ -213,7 +213,7 @@ export default function SupremeCourtCases() {
             </p>
           </div>
 
-          <LegalSearch />
+          {/* <LegalSearch /> */}
 
           {/* <div className="max-w-lg mx-auto mt-12">
             <ApiStatus />
