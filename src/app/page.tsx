@@ -60,6 +60,7 @@ function TypewriterText() {
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [featuresDropdownOpen, setFeaturesDropdownOpen] = useState(false);
+  const [caseAlertsDropdownOpen, setCaseAlertsDropdownOpen] = useState(false);
   const [pricingMode, setPricingMode] = useState<'annual' | 'monthly'>('monthly');
 
   useEffect(() => {
@@ -73,11 +74,12 @@ export default function Home() {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (featuresDropdownOpen) {
-        const target = event.target as HTMLElement;
-        if (!target.closest('.features-dropdown')) {
-          setFeaturesDropdownOpen(false);
-        }
+      const target = event.target as HTMLElement;
+      if (featuresDropdownOpen && !target.closest('.features-dropdown')) {
+        setFeaturesDropdownOpen(false);
+      }
+      if (caseAlertsDropdownOpen && !target.closest('.case-alerts-dropdown')) {
+        setCaseAlertsDropdownOpen(false);
       }
     };
 
@@ -85,7 +87,7 @@ export default function Home() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [featuresDropdownOpen]);
+  }, [featuresDropdownOpen, caseAlertsDropdownOpen]);
 
   useEffect(() => {
     // Scroll-triggered image scaling effect
@@ -312,12 +314,33 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                <a
-                  href="/supreme-court-cases"
-                  className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
-                >
-                  Library
-                </a>
+                <div className="relative case-alerts-dropdown">
+                  <button
+                    onClick={() => setCaseAlertsDropdownOpen(!caseAlertsDropdownOpen)}
+                    className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors flex items-center gap-1"
+                  >
+                    Case Alerts
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {caseAlertsDropdownOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-black rounded-lg shadow-xl border border-gray-700 z-50" style={{ backgroundColor: '#0f0e0d' }}>
+                      <div className="py-2">
+                        <a href="/supreme-court-cases" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                          <div className="font-medium">Supreme Court</div>
+                        </a>
+                        <a href="/delhi-high-court" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                          <div className="font-medium">Delhi High Court</div>
+                        </a>
+                        <a href="/delhi-district-courts" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                          <div className="font-medium">Delhi District Courts</div>
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <a
                   href="#pricing"
                   className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
@@ -399,12 +422,18 @@ export default function Home() {
                   Document Drafting
                 </a>
               </div>
-              <a
-                href="/supreme-court-cases"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
-              >
-                Library
-              </a>
+              <div className="px-3 py-2">
+                <div className="text-gray-500 text-xs uppercase font-semibold mb-2">Case Alerts</div>
+                <a href="/supreme-court-cases" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
+                  Supreme Court
+                </a>
+                <a href="/delhi-high-court" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
+                  Delhi High Court
+                </a>
+                <a href="/delhi-district-courts" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
+                  Delhi District Courts
+                </a>
+              </div>
               <a
                 href="#pricing"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
@@ -459,7 +488,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 text-white" style={{ fontFamily: '"Times New Roman", Times, serif', fontWeight: '700', letterSpacing: '0.01em' }}>
-                The Fastest Way to Research, Manage, and Access Law in India
+                The Agentic Way to Research, Manage, and Access Law in India
               </h1>
               <p className="text-base md:text-lg text-gray-300 mb-6 max-w-4xl mx-auto leading-relaxed">
                 Get accurate answers, manage cases across courts, and access India's largest free legal library all in one platform built for Indian lawyers.
@@ -1148,7 +1177,17 @@ export default function Home() {
               <ul className="space-y-2 text-sm">
                 <li>
                   <a href="/supreme-court-cases" className="text-neutral-400 hover:text-white transition-colors">
-                    Library
+                    Supreme Court
+                  </a>
+                </li>
+                <li>
+                  <a href="/delhi-high-court" className="text-neutral-400 hover:text-white transition-colors">
+                    Delhi High Court
+                  </a>
+                </li>
+                <li>
+                  <a href="/delhi-district-courts" className="text-neutral-400 hover:text-white transition-colors">
+                    Delhi District Courts
                   </a>
                 </li>
                 <li>

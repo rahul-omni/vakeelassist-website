@@ -118,15 +118,15 @@ export default function LegalWorkflowStrip() {
                   </div>
                 </div>
 
-                {/* Ask Harvey Button */}
+                {/* Ask VakeelAssist Button */}
                 <div className="text-center">
-                  <button 
+                  <button
                     className={`w-full py-4 text-white rounded-xl font-medium transition-all duration-300 ${
                       typingText === inputText ? 'cursor-pointer' : 'opacity-50'
                     }`}
                     style={{ backgroundColor: '#0f0e0d' }}
                   >
-                    Ask Harvey
+                    Ask VakeelAssist
                   </button>
                 </div>
               </div>
