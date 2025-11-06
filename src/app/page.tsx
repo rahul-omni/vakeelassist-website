@@ -1216,6 +1216,11 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
+                  <a href="/cancellation-refunds" className="text-neutral-400 hover:text-white transition-colors">
+                    Cancellation & Refunds
+                  </a>
+                </li>
+                <li>
                   <a href="#" className="text-neutral-400 hover:text-white transition-colors">
                     Cookie Policy
                   </a>
