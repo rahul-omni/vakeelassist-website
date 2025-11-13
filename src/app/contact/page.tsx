@@ -32,7 +32,7 @@ export default function Contact() {
                   Get in Touch
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  We're here to help you transform your legal practice with AI-powered solutions. 
+                  We&apos;re here to help you transform your legal practice with AI-powered solutions. 
                   Reach out through any of the channels below.
                 </p>
               </div>
@@ -75,7 +75,7 @@ export default function Contact() {
                     <a href="mailto:contact@vakeelassist.com" className="text-blue-600 hover:text-blue-700 transition-colors">
                       contact@vakeelassist.com
                     </a>
-                    <p className="text-gray-600 text-sm mt-1">We'll respond within 24 hours</p>
+                    <p className="text-gray-600 text-sm mt-1">We&apos;ll respond within 24 hours</p>
                   </div>
                 </div>
               </div>

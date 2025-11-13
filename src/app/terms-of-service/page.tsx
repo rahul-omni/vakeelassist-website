@@ -34,7 +34,7 @@ export default function TermsOfService() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  By accessing and using Vakeel Assist ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+                  By accessing and using Vakeel Assist (&quot;the Service&quot;), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
                 </p>
               </section>
 
@@ -105,7 +105,7 @@ export default function TermsOfService() {
                 <ul className="list-disc pl-6 text-gray-600 space-y-2 mb-4">
                   <li>Subscription fees are billed in advance on a monthly or annual basis</li>
                   <li>All fees are non-refundable except as required by law</li>
-                  <li>We may change subscription fees with 30 days' notice</li>
+                  <li>We may change subscription fees with 30 days&apos; notice</li>
                   <li>Failure to pay may result in suspension or termination of services</li>
                   <li>Taxes are additional and your responsibility</li>
                 </ul>
@@ -139,7 +139,7 @@ export default function TermsOfService() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Disclaimers</h2>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+                  THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND. WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
                 </p>
               </section>
 
