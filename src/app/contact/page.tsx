@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
@@ -298,24 +300,24 @@ export default function Contact() {
               <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="/" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/#features" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/#features" className="text-neutral-400 hover:text-white transition-colors">
                     Features
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/#pricing" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/#pricing" className="text-neutral-400 hover:text-white transition-colors">
                     Pricing
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/#faq" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/#faq" className="text-neutral-400 hover:text-white transition-colors">
                     FAQ
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -325,24 +327,24 @@ export default function Contact() {
               <h4 className="text-base font-semibold mb-4 text-white">Legal</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="/privacy-policy" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/privacy-policy" className="text-neutral-400 hover:text-white transition-colors">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/terms-of-service" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/terms-of-service" className="text-neutral-400 hover:text-white transition-colors">
                     Terms of Service
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/cancellation-refunds" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/cancellation-refunds" className="text-neutral-400 hover:text-white transition-colors">
                     Cancellation & Refunds
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/shipping-policy" className="text-neutral-400 hover:text-white transition-colors">
+                  <Link href="/shipping-policy" className="text-neutral-400 hover:text-white transition-colors">
                     Shipping Policy
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -352,9 +354,9 @@ export default function Contact() {
               <h4 className="text-base font-semibold mb-4 text-white">Contact</h4>
               <div className="space-y-3 text-sm text-neutral-400">
                 <div>
-                  <a href="/contact" className="text-neutral-400 hover:text-white transition-colors font-medium">
+                  <Link href="/contact" className="text-neutral-400 hover:text-white transition-colors font-medium">
                     Contact Us
-                  </a>
+                  </Link>
                 </div>
                 <div>
                   <div className="font-medium text-white mb-1">Corporate Office</div>
