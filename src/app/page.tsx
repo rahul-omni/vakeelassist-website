@@ -1211,13 +1211,18 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+                  <a href="/terms-of-service" className="text-neutral-400 hover:text-white transition-colors">
                     Terms of Service
                   </a>
                 </li>
                 <li>
                   <a href="/cancellation-refunds" className="text-neutral-400 hover:text-white transition-colors">
                     Cancellation & Refunds
+                  </a>
+                </li>
+                <li>
+                  <a href="/shipping-policy" className="text-neutral-400 hover:text-white transition-colors">
+                    Shipping Policy
                   </a>
                 </li>
                 <li>
@@ -1237,6 +1242,11 @@ export default function Home() {
             <div>
               <h4 className="text-base font-semibold mb-4 text-white">Contact</h4>
               <div className="space-y-3 text-sm text-neutral-400">
+                <div>
+                  <a href="/contact" className="text-neutral-400 hover:text-white transition-colors font-medium">
+                    Contact Us
+                  </a>
+                </div>
                 <div>
                   <div className="font-medium text-white mb-1">Corporate Office</div>
                   <div className="leading-relaxed">

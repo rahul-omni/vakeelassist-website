@@ -1,49 +1,46 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="fixed w-full z-50" style={{ backgroundColor: '#0f0e0d' }}>
+      {/* Navigation Spacer */}
+      <div className="h-16"></div>
+
+      {/* Hero Section */}
+      <div className="w-full text-white py-16" style={{ backgroundColor: '#0f0e0d' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link href="/" className="cursor-pointer">
-                <Image
-                  src="/images/ChatGPT Image Oct 27, 2025, 10_17_07 AM.png"
-                  alt="Vakeel Assist"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto"
-                />
-              </Link>
-            </div>
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 text-white">
+              Privacy Policy
+            </h1>
+            <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Your privacy is important to us. This policy explains how we collect, use, and protect your information.
+            </p>
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* Main Content */}
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">Privacy Policy</h1>
+      {/* Privacy Policy Content */}
+      <div className="w-full py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="prose prose-lg max-w-none">
-            <p className="text-gray-600 mb-6">
-              Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </p>
+            
+            <div className="mb-8">
+              <p className="text-gray-600 text-sm">Last updated: November 13, 2024</p>
+            </div>
 
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-900">1. Introduction</h2>
-              <p className="text-gray-700 mb-4">
-                Welcome to VakeelAssist ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.
-              </p>
-              <p className="text-gray-700">
-                By using VakeelAssist, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
-              </p>
-            </section>
+            <div className="space-y-8">
+
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Welcome to Vakeel Assist ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.
+                </p>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  By using Vakeel Assist, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
+                </p>
+              </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-gray-900">2. Information We Collect</h2>
@@ -233,45 +230,31 @@ export default function PrivacyPolicy() {
               <p className="text-gray-700 mb-4">
                 If you have questions or concerns about this Privacy Policy or our data practices, please contact us:
               </p>
-              <ul className="list-none text-gray-700 space-y-2">
-                <li><strong>Email:</strong> privacy@vakeelassist.com</li>
-                <li><strong>Support Email:</strong> support@vakeelassist.com</li>
-                <li><strong>Phone:</strong> +91-XXXX-XXXXXX</li>
-                <li><strong>Address:</strong> [Your Business Address]</li>
-              </ul>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <p className="text-gray-600 mb-2"><strong>Email:</strong> privacy@vakeelassist.com</p>
+                <p className="text-gray-600 mb-2"><strong>Support Email:</strong> contact@vakeelassist.com</p>
+                <p className="text-gray-600 mb-2"><strong>Phone:</strong> +91 99037 58670</p>
+                <p className="text-gray-600">
+                  <strong>Address:</strong><br />
+                  The Circle, 3rd Floor<br />
+                  Huda City Centre Metro Station<br />
+                  Sector 29, Gurugram<br />
+                  Haryana 122002, India
+                </p>
+              </div>
             </section>
 
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-900">15. Compliance with Indian Laws</h2>
-              <p className="text-gray-700">
-                VakeelAssist complies with applicable Indian data protection laws, including the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011. We are committed to protecting your sensitive personal data in accordance with these regulations.
-              </p>
-            </section>
-          </div>
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">15. Compliance with Indian Laws</h2>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Vakeel Assist complies with applicable Indian data protection laws, including the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011. We are committed to protecting your sensitive personal data in accordance with these regulations.
+                </p>
+              </section>
 
-          {/* Back to Home Button */}
-          <div className="mt-12">
-            <Link
-              href="/"
-              className="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Back to Home
-            </Link>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="w-full py-8" style={{ backgroundColor: '#0f0e0d' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-neutral-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} VakeelAssist. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
