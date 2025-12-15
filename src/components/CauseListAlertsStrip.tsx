@@ -2,35 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 
+const caseInfo = {
+  caseNumber: "CRL.A. 1234/2024",
+  parties: "Rajesh Kumar vs. State of Delhi",
+  court: "Delhi High Court",
+  date: "September 10, 2025",
+  time: "10:30 AM",
+  courtroom: "Court Room No. 15"
+};
+
 export default function CauseListAlertsStrip() {
   const [currentPhase, setCurrentPhase] = useState(0); // 0 = listing, 1 = processing, 2 = notifications
-  const [caseDetails, setCaseDetails] = useState('');
-  const [showNotifications, setShowNotifications] = useState(false);
   const [whatsappSent, setWhatsappSent] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-
-  const caseInfo = {
-    caseNumber: "CRL.A. 1234/2024",
-    parties: "Rajesh Kumar vs. State of Delhi",
-    court: "Delhi High Court",
-    date: "September 10, 2025",
-    time: "10:30 AM",
-    courtroom: "Court Room No. 15"
-  };
 
   useEffect(() => {
     const animationCycle = () => {
       // Reset states
       setCurrentPhase(0);
-      setCaseDetails('');
-      setShowNotifications(false);
       setWhatsappSent(false);
       setEmailSent(false);
 
       // Phase 1: Show case listing (3 seconds)
       setTimeout(() => {
-        setCaseDetails(`${caseInfo.caseNumber}\n${caseInfo.parties}`);
-        
         setTimeout(() => {
           // Phase 2: Processing phase (1 second)
           setCurrentPhase(1);
@@ -38,7 +32,6 @@ export default function CauseListAlertsStrip() {
           setTimeout(() => {
             // Phase 3: Show notifications (3 seconds)
             setCurrentPhase(2);
-            setShowNotifications(true);
             
             // Show WhatsApp notification first
             setTimeout(() => {
