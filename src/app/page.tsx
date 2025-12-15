@@ -263,8 +263,7 @@ export default function Home() {
       <nav className="fixed w-full z-50" style={{ backgroundColor: '#0f0e0d' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
+          <div className="flex-shrink-0 flex items-center">
                 <Link href="/" className="cursor-pointer">
                   <Image
                     src="/images/ChatGPT Image Oct 27, 2025, 10_17_07 AM.png"
@@ -275,7 +274,9 @@ export default function Home() {
                   />
                 </Link>
               </div>
-              <div className="hidden md:ml-12 md:flex md:space-x-8 items-center">
+            <div className="flex">
+             
+              <div className="hidden md:flex md:space-x-8 items-center">
                 <div className="relative features-dropdown">
                   <button
                     onClick={() => setFeaturesDropdownOpen(!featuresDropdownOpen)}
@@ -290,23 +291,23 @@ export default function Home() {
                   {featuresDropdownOpen && (
                     <div className="absolute top-full left-0 mt-2 w-64 bg-black rounded-lg shadow-xl border border-gray-700 z-50" style={{ backgroundColor: '#0f0e0d' }}>
                       <div className="py-2">
-                        <a href="#assistant" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        <a href="#assistant" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                         onClick={() => setFeaturesDropdownOpen(false)}>
                           <div className="font-medium">AI Assistant</div>
                           <div className="text-sm text-gray-500">Ask questions and analyze documents</div>
                         </a>
-                        <a href="#translation" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        <a href="#translation" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                          onClick={() => setFeaturesDropdownOpen(false)}>
                           <div className="font-medium">Document Translation</div>
                           <div className="text-sm text-gray-500">Translate legal documents instantly</div>
                         </a>
-                        <a href="#alerts" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        <a href="#alerts" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                        onClick={() => setFeaturesDropdownOpen(false)}>
                           <div className="font-medium">Cause List Alerts</div>
                           <div className="text-sm text-gray-500">Never miss a court date</div>
                         </a>
-                        <a href="#research" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
-                          <div className="font-medium">Legal Research</div>
-                          <div className="text-sm text-gray-500">Access India&apos;s largest legal library</div>
-                        </a>
-                        <a href="#drafting" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                        <a href="#assistant" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                          onClick={() => setFeaturesDropdownOpen(false)}>
                           <div className="font-medium">Document Drafting</div>
                           <div className="text-sm text-gray-500">Draft legal documents with AI</div>
                         </a>
@@ -314,7 +315,7 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                <div className="relative case-alerts-dropdown">
+                {/* <div className="relative case-alerts-dropdown">
                   <button
                     onClick={() => setCaseAlertsDropdownOpen(!caseAlertsDropdownOpen)}
                     className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors flex items-center gap-1"
@@ -340,18 +341,12 @@ export default function Home() {
                       </div>
                     </div>
                   )}
-                </div>
+                </div> */}
                 <a
                   href="#pricing"
                   className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
                 >
                   Pricing
-                </a>
-                <a
-                  href="#about"
-                  className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
-                >
-                  About
                 </a>
                 <a
                   href="#faq"
@@ -518,13 +513,19 @@ export default function Home() {
       </div>
 
       {/* Cause List Alerts Animation Strip */}
-      <CauseListAlertsStrip />
+      <div id="alerts" className="w-full">
+        <CauseListAlertsStrip />
+      </div>
 
       {/* Translation Workflow Animation Strip */}
-      <TranslationWorkflowStrip />
+      <div id="translation" className="w-full">
+        <TranslationWorkflowStrip />
+      </div>
 
       {/* Legal Workflow Animation Strip */}
-      <LegalWorkflowStrip />
+      <div id="assistant" className="w-full">
+        <LegalWorkflowStrip />
+      </div>
 
       {/* Professional AI Features Section */}
       <div className="w-full py-16 relative overflow-hidden" style={{ backgroundColor: '#0f0e0d' }}>
