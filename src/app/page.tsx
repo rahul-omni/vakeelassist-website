@@ -788,11 +788,6 @@ export default function Home() {
       </li>
     </ul>
 
-    <div className="mt-8">
-      <button className="w-full rounded-2xl px-4 py-3 text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-white focus:ring-4 focus:ring-neutral-700/40">
-        Get started
-      </button>
-    </div>
   </div>
 </article>
 
@@ -856,11 +851,7 @@ export default function Home() {
                   </li>
                 </ul>
 
-                <div className="mt-8">
-                  <button className="w-full rounded-2xl px-4 py-3 text-sm font-medium bg-neutral-800 text-neutral-100 hover:bg-neutral-700 focus:ring-4 focus:ring-neutral-700/40">
-                    Get started
-                  </button>
-                </div>
+                
               </div>
             </article>
 
@@ -907,11 +898,7 @@ export default function Home() {
                   </li>
                 </ul>
 
-                <div className="mt-8">
-                  <button className="w-full rounded-2xl px-4 py-3 text-sm font-medium bg-neutral-800 text-neutral-100 hover:bg-neutral-700 focus:ring-4 focus:ring-neutral-700/40">
-                    Get started
-                  </button>
-                </div>
+                
               </div>
             </article>
           </div>
