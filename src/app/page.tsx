@@ -61,8 +61,8 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [featuresDropdownOpen, setFeaturesDropdownOpen] = useState(false);
   const [caseAlertsDropdownOpen, setCaseAlertsDropdownOpen] = useState(false);
-  const [pricingMode, setPricingMode] = useState<'annual' | 'monthly'>('monthly');
 
+  
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -709,35 +709,14 @@ export default function Home() {
       {/* Pricing Section - Clean Dark Design */}
       <div id="pricing" className="w-full py-16" style={{ backgroundColor: '#0f0e0d' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* <div className="text-center mb-12">
+          <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">
               Choose a plan that&apos;s right for you
             </h2>
             <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto mb-6">
-              Start with our Individual plan for free. Switch plans or cancel any time.
+              Start with our Individual plan for just ₹299 per month. Switch plans or cancel any time.
             </p>
-            
-            <div className="flex justify-center">
-              <div className="bg-gray-700 rounded-full p-1 flex">
-                <button
-                  onClick={() => setPricingMode('annual')}
-                  className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                    pricingMode === 'annual' ? 'bg-gray-600 text-white' : 'text-gray-400'
-                  }`}
-                >
-                  Annual pricing
-                </button>
-                <button
-                  onClick={() => setPricingMode('monthly')}
-                  className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                    pricingMode === 'monthly' ? 'bg-gray-600 text-white' : 'text-gray-400'
-                  }`}
-                >
-                  Monthly pricing
-                </button>
-              </div>
-            </div>
-          </div> */}
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             
@@ -806,25 +785,13 @@ export default function Home() {
                 <p className="mt-2 text-neutral-400 leading-relaxed text-sm">Best for growing teams.</p>
 
                 <div className="mt-6">
-                  {pricingMode === 'annual' ? (
-                    <>
-                      <div className="flex items-end gap-2">
-                        <span className="text-4xl font-bold tracking-tight text-white">₹5,999</span>
-                        <span className="mb-1 text-neutral-400 text-sm">per year</span>
-                      </div>
-                      <div className="mt-2">
-                        <span className="inline-block px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded">
-                          Save 10%
-                        </span>
-                      </div>
-                    </>
-                  ) : (
+                
                     <div className="flex items-end gap-2">
                       <span className="text-neutral-500 line-through text-lg">₹1399</span>
                       <span className="text-4xl font-bold tracking-tight text-white">₹499</span>
                       <span className="mb-1 text-neutral-400 text-sm">per month</span>
                     </div>
-                  )}
+                  
                 </div>
 
                 {/* Divider */}
