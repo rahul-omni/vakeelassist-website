@@ -709,7 +709,7 @@ export default function Home() {
       {/* Pricing Section - Clean Dark Design */}
       <div id="pricing" className="w-full py-16" style={{ backgroundColor: '#0f0e0d' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          {/* <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">
               Choose a plan that&apos;s right for you
             </h2>
@@ -717,7 +717,6 @@ export default function Home() {
               Start with our Individual plan for free. Switch plans or cancel any time.
             </p>
             
-            {/* Pricing Toggle */}
             <div className="flex justify-center">
               <div className="bg-gray-700 rounded-full p-1 flex">
                 <button
@@ -738,7 +737,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             
@@ -758,10 +757,11 @@ export default function Home() {
     
      <div className="items-baseline gap-4 mt-4">
   <div className="flex items-baseline gap-2">
-    <span className="text-neutral-500 line-through text-lg">₹299</span>
-      <span className="text-4xl font-bold text-emerald-400">Free</span>
+    <span className="text-neutral-500 line-through text-lg">₹599</span>
+      <span className="text-4xl font-bold text-emerald-400">299</span>
+      <span className="text-neutral-400 text-sm">per month</span>
+
   </div>
-  <span className="text-neutral-400 text-sm">per month</span>
 </div>
     {/* Divider */}
     <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-neutral-700/60 to-transparent" />
@@ -772,7 +772,7 @@ export default function Home() {
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24">
           <path d="M20 6 9 17l-5-5" />
         </svg>
-        Up to 5 active cases
+        Up to 20 active cases
       </li>
       <li className="flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24">
@@ -810,7 +810,7 @@ export default function Home() {
                     <>
                       <div className="flex items-end gap-2">
                         <span className="text-4xl font-bold tracking-tight text-white">₹5,999</span>
-                        <span className="mb-1 text-neutral-400 text-sm">per seat/year</span>
+                        <span className="mb-1 text-neutral-400 text-sm">per year</span>
                       </div>
                       <div className="mt-2">
                         <span className="inline-block px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded">
@@ -820,8 +820,9 @@ export default function Home() {
                     </>
                   ) : (
                     <div className="flex items-end gap-2">
+                      <span className="text-neutral-500 line-through text-lg">₹1399</span>
                       <span className="text-4xl font-bold tracking-tight text-white">₹499</span>
-                      <span className="mb-1 text-neutral-400 text-sm">per seat/month</span>
+                      <span className="mb-1 text-neutral-400 text-sm">per month</span>
                     </div>
                   )}
                 </div>
@@ -835,7 +836,7 @@ export default function Home() {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400">
                       <path d="M20 6 9 17l-5-5" />
                     </svg>
-                    Up to 20 active cases
+                    Up to 50 active cases
                   </li>
                   <li className="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-emerald-400">
