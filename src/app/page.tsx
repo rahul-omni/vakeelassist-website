@@ -1073,8 +1073,8 @@ export default function Home() {
           <div className="text-center mt-12">
             <p className="text-gray-300 text-base mb-5">Still have questions?</p>
             <div className="flex justify-center space-x-4">
-              <a
-                href="https://wa.me/919903758670"
+              <a 
+                href="https://wa.me/917044251769"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center font-medium"
