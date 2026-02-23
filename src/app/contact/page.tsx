@@ -95,7 +95,7 @@ export default function Contact() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Phone</h3>
                     <a href="tel:+919903758670" className="text-blue-600 hover:text-blue-700 transition-colors">
-                      +91 99037 58670
+                      +91 70442 51769
                     </a>
                     <p className="text-gray-600 text-sm mt-1">Available Monday - Friday, 9 AM - 6 PM IST</p>
                   </div>
@@ -351,7 +351,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <a href="tel:+919903758670" className="hover:text-white transition-colors">
-                    +91 99037 58670
+                    +91 70442 51769
                   </a>
                 </div>
               </div>

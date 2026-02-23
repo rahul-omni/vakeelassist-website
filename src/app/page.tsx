@@ -349,7 +349,7 @@ export default function Home() {
                   Pricing
                 </a>
                 <a
-                  href="#faq"
+                  href="#contact"
                   className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
                 >
                   Contact
@@ -442,7 +442,7 @@ export default function Home() {
                 About
               </a>
               <a
-                href="#faq"
+                href="#contact"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
               >
                 Contact
@@ -1069,16 +1069,22 @@ export default function Home() {
             </div>
           </div>
 
-          {/* CTA at bottom */}
-          <div className="text-center mt-12">
-            <p className="text-gray-300 text-base mb-5">Still have questions?</p>
-            <div className="flex justify-center space-x-4">
-              <a 
-                href="https://wa.me/917044251769"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center font-medium"
-              >
+          
+        </div>
+      </div>
+
+      {/* CTA at bottom */}
+      <div id="contact" className="w-full pb-16" style={{ backgroundColor: '#0f0e0d' }}>
+
+        <div className="text-center mt-12">
+              <p className="text-gray-300 text-base mb-5">Still have questions?</p>
+              <div className="flex justify-center space-x-4">
+                <a 
+                  href="https://wa.me/917044251769"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center font-medium"
+                >
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="currentColor"
@@ -1092,7 +1098,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
       
       {/* Footer - Enhanced Design */}
       <footer className="w-full bg-black text-white border-t border-neutral-800">
@@ -1182,7 +1187,7 @@ export default function Home() {
                 </div>
                 <div>
                   <a href="tel:+919903758670" className="hover:text-white transition-colors">
-                    +91 99037 58670
+                    +91 70442 51769
                   </a>
                 </div>
               </div>
