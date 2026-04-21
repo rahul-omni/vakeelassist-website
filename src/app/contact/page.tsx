@@ -1,12 +1,27 @@
-"use client";
+import type { Metadata } from "next";
+import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
-import Link from "next/link";
+export const metadata: Metadata = {
+  title: "Contact Us | Vakeel Assist",
+  description:
+    "Contact Vakeel Assist for support, partnerships, or product questions. Reach us by email, phone, or WhatsApp.",
+  alternates: { canonical: "/contact" },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: "Contact Us | Vakeel Assist",
+    description:
+      "Contact Vakeel Assist for support, partnerships, or product questions. Reach us by email, phone, or WhatsApp.",
+    url: "/contact",
+    type: "website",
+  },
+};
 
 export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation Spacer */}
-      <div className="h-16"></div>
+      <SiteHeader />
+      <div className="h-16" />
 
       {/* Hero Section */}
       <div className="w-full text-white py-16" style={{ backgroundColor: '#0f0e0d' }}>
@@ -263,111 +278,7 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Footer - Enhanced Design */}
-      <footer className="w-full bg-black text-white border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Main Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
-            {/* Company Info */}
-            <div className="lg:col-span-1">
-              <h3 className="text-xl font-bold mb-4">Vakeel Assist</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-4">
-                Transforming legal practice through AI-powered document drafting,
-                workflow automation, and case management.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#pricing" className="text-neutral-400 hover:text-white transition-colors">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#faq" className="text-neutral-400 hover:text-white transition-colors">
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/privacy-policy" className="text-neutral-400 hover:text-white transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms-of-service" className="text-neutral-400 hover:text-white transition-colors">
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/cancellation-refunds" className="text-neutral-400 hover:text-white transition-colors">
-                    Cancellation & Refunds
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/shipping-policy" className="text-neutral-400 hover:text-white transition-colors">
-                    Shipping Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact Info */}
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Contact</h4>
-              <div className="space-y-3 text-sm text-neutral-400">
-                <div>
-                  <Link href="/contact" className="text-neutral-400 hover:text-white transition-colors font-medium">
-                    Contact Us
-                  </Link>
-                </div>
-                <div>
-                  <div className="font-medium text-white mb-1">Corporate Office</div>
-                  <div className="leading-relaxed">
-                    The Circle, 3rd Floor,<br />
-                    Huda City Centre Metro Station,<br />
-                    Sector 29, Gurugram,<br />
-                    Haryana 122002
-                  </div>
-                </div>
-                <div>
-                  <a href="mailto:contact@vakeelassist.com" className="hover:text-white transition-colors">
-                    contact@vakeelassist.com
-                  </a>
-                </div>
-                <div>
-                  <a href="tel:+919903758670" className="hover:text-white transition-colors">
-                    +91 70442 51769
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="border-t border-neutral-800 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <p className="text-neutral-500 text-sm">
-                © 2023 Vakeel Assist. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="default" />
     </div>
   );
 }

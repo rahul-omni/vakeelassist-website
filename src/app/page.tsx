@@ -3,11 +3,11 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "../components/ui/button";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Image from "next/image";
-import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
 import LegalWorkflowStrip from "../components/LegalWorkflowStrip";
 import TranslationWorkflowStrip from "../components/TranslationWorkflowStrip";
 import CauseListAlertsStrip from "../components/CauseListAlertsStrip";
+import Footer from "@/components/Footer";
 
 // TypewriterText Component with word-by-word animation
 function TypewriterText() {
@@ -58,11 +58,6 @@ function TypewriterText() {
 }
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [featuresDropdownOpen, setFeaturesDropdownOpen] = useState(false);
-  const [caseAlertsDropdownOpen, setCaseAlertsDropdownOpen] = useState(false);
-
-  
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -70,24 +65,6 @@ export default function Home() {
       once: true,
     });
   }, []);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (featuresDropdownOpen && !target.closest('.features-dropdown')) {
-        setFeaturesDropdownOpen(false);
-      }
-      if (caseAlertsDropdownOpen && !target.closest('.case-alerts-dropdown')) {
-        setCaseAlertsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [featuresDropdownOpen, caseAlertsDropdownOpen]);
 
   useEffect(() => {
     // Scroll-triggered image scaling effect
@@ -259,210 +236,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center">
-      {/* Navigation - Clean Professional */}
-      <nav className="fixed w-full z-50" style={{ backgroundColor: '#0f0e0d' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-          <div className="flex-shrink-0 flex items-center">
-                <Link href="/" className="cursor-pointer">
-                  <Image
-                    src="/images/ChatGPT Image Oct 27, 2025, 10_17_07 AM.png"
-                    alt="Vakeel Assist"
-                    width={120}
-                    height={40}
-                    className="h-8 w-auto"
-                  />
-                </Link>
-              </div>
-            <div className="flex">
-             
-              <div className="hidden md:flex md:space-x-8 items-center">
-                <div className="relative features-dropdown">
-                  <button
-                    onClick={() => setFeaturesDropdownOpen(!featuresDropdownOpen)}
-                    className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors flex items-center gap-1"
-                  >
-                    Features
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {featuresDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-64 bg-black rounded-lg shadow-xl border border-gray-700 z-50" style={{ backgroundColor: '#0f0e0d' }}>
-                      <div className="py-2">
-                        <a href="#assistant" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
-                         onClick={() => setFeaturesDropdownOpen(false)}>
-                          <div className="font-medium">AI Assistant</div>
-                          <div className="text-sm text-gray-500">Ask questions and analyze documents</div>
-                        </a>
-                        <a href="#translation" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
-                          onClick={() => setFeaturesDropdownOpen(false)}>
-                          <div className="font-medium">Document Translation</div>
-                          <div className="text-sm text-gray-500">Translate legal documents instantly</div>
-                        </a>
-                        <a href="#alerts" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
-                        onClick={() => setFeaturesDropdownOpen(false)}>
-                          <div className="font-medium">Cause List Alerts</div>
-                          <div className="text-sm text-gray-500">Never miss a court date</div>
-                        </a>
-                        <a href="#assistant" className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
-                          onClick={() => setFeaturesDropdownOpen(false)}>
-                          <div className="font-medium">Document Drafting</div>
-                          <div className="text-sm text-gray-500">Draft legal documents with AI</div>
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                {/* <div className="relative case-alerts-dropdown">
-                  <button
-                    onClick={() => setCaseAlertsDropdownOpen(!caseAlertsDropdownOpen)}
-                    className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors flex items-center gap-1"
-                  >
-                    Case Alerts
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {caseAlertsDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-56 bg-black rounded-lg shadow-xl border border-gray-700 z-50" style={{ backgroundColor: '#0f0e0d' }}>
-                      <div className="py-2">
-                        <div className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer">
-                          <div className="font-medium">Supreme Court</div>
-                        </div>
-                        <div className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer">
-                          <div className="font-medium">Delhi High Court</div>
-                        </div>
-                        <div className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer">
-                          <div className="font-medium">Delhi District Courts</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div> */}
-                <a
-                  href="#pricing"
-                  className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
-                >
-                  Pricing
-                </a>
-                <a
-                  href="#contact"
-                  className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
-
-            {/* Login button */}
-            <div className="hidden md:flex items-center">
-              <a
-                href="https://portal.vakeelassist.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="bg-white hover:bg-gray-100 text-black py-2 px-4 text-sm font-medium rounded-full transition-all duration-300 shadow-sm hover:shadow-md">
-                  Login
-                </Button>
-              </a>
-            </div>
-
-            {/* Menu button for mobile */}
-            <div className="flex md:hidden items-center">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-600"
-              >
-                <span className="sr-only">Open main menu</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu - Dark theme */}
-        {mobileMenuOpen && (
-          <div className="md:hidden absolute top-16 inset-x-0 shadow-lg rounded-b-lg z-50 border-t border-gray-800" style={{ backgroundColor: '#0f0e0d' }}>
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <div className="px-3 py-2">
-                <div className="text-gray-500 text-xs uppercase font-semibold mb-2">Features</div>
-                <a href="#assistant" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
-                  AI Assistant
-                </a>
-                <a href="#translation" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
-                  Document Translation
-                </a>
-                <a href="#alerts" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
-                  Cause List Alerts
-                </a>
-                <a href="#research" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
-                  Legal Research
-                </a>
-                <a href="#drafting" className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800">
-                  Document Drafting
-                </a>
-              </div>
-              <div className="px-3 py-2">
-                <div className="text-gray-500 text-xs uppercase font-semibold mb-2">Case Alerts</div>
-                <div className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer">
-                  Supreme Court
-                </div>
-                <div className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer">
-                  Delhi High Court
-                </div>
-                <div className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer">
-                  Delhi District Courts
-                </div>
-              </div>
-              <a
-                href="#pricing"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
-              >
-                Pricing
-              </a>
-              <a
-                href="#about"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
-              >
-                About
-              </a>
-              <a
-                href="#contact"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
-              >
-                Contact
-              </a>
-              <div className="mt-4 px-3">
-                <a
-                  href="https://portal.vakeelassist.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full"
-                >
-                  <span className="block w-full text-center bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md font-medium transition-colors">
-                    Login
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      <SiteHeader />
 
       {/* Animated Announcement Bar */}
       <div className="w-full flex justify-center py-12 mt-16" style={{ backgroundColor: '#0f0e0d' }}>
@@ -1099,111 +873,7 @@ export default function Home() {
           </div>
         </div>
       
-      {/* Footer - Enhanced Design */}
-      <footer className="w-full bg-black text-white border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Main Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
-            {/* Company Info */}
-            <div className="lg:col-span-1">
-              <h3 className="text-xl font-bold mb-4">Vakeel Assist</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-4">
-                Transforming legal practice through AI-powered document drafting,
-                workflow automation, and case management.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/supreme-court-cases" className="text-neutral-400 hover:text-white transition-colors">
-                    Supreme Court
-                  </Link>
-                </li>
-                <li>
-                  <a href="#pricing" className="text-neutral-400 hover:text-white transition-colors">
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a href="#faq" className="text-neutral-400 hover:text-white transition-colors">
-                    FAQ
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <a href="/privacy-policy" className="text-neutral-400 hover:text-white transition-colors">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/terms-of-service" className="text-neutral-400 hover:text-white transition-colors">
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="/cancellation-refunds" className="text-neutral-400 hover:text-white transition-colors">
-                    Cancellation & Refunds
-                  </a>
-                </li>
-                <li>
-                  <a href="/shipping-policy" className="text-neutral-400 hover:text-white transition-colors">
-                    Shipping Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact Info */}
-            <div>
-              <h4 className="text-base font-semibold mb-4 text-white">Contact</h4>
-              <div className="space-y-3 text-sm text-neutral-400">
-                <div>
-                  <a href="/contact" className="text-neutral-400 hover:text-white transition-colors font-medium">
-                    Contact Us
-                  </a>
-                </div>
-                <div>
-                  <div className="font-medium text-white mb-1">Corporate Office</div>
-                  <div className="leading-relaxed">
-                    The Circle, 3rd Floor,<br />
-                    Huda City Centre Metro Station,<br />
-                    Sector 29, Gurugram,<br />
-                    Haryana 122002
-                  </div>
-                </div>
-                <div>
-                  <a href="mailto:contact@vakeelassist.com" className="hover:text-white transition-colors">
-                    contact@vakeelassist.com
-                  </a>
-                </div>
-                <div>
-                  <a href="tel:+919903758670" className="hover:text-white transition-colors">
-                    +91 70442 51769
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="border-t border-neutral-800 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <p className="text-neutral-500 text-sm">
-                © 2023 Vakeel Assist. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="home" />
 
       
     </div>

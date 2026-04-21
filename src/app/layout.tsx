@@ -14,8 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vakeel Assist",
-  description: "Your AI Legal Assistant",
+  metadataBase: new URL("https://vakeelassist.com"),
+  title: {
+    default: "Vakeel Assist",
+    template: "%s | Vakeel Assist",
+  },
+  description: "AI-powered legal assistant for drafting, workflow, and case management.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Vakeel Assist",
+    description: "AI-powered legal assistant for drafting, workflow, and case management.",
+    url: "/",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
