@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pdf2md from "@opendocsg/pdf2md";
 import prisma from '@/lib/prisma'
-import { openai } from '@/lib/openai';
+import { getOpenAI } from '@/lib/openai';
 
 export async function POST(req: NextRequest) {
   try {
+    const openai = getOpenAI();
+    if (!openai) {
+      return NextResponse.json(
+        { error: "OPENAI_API_KEY is not configured" },
+        { status: 503 }
+      );
+    }
+
     const body = await req.json();
     const { url } = body;
 

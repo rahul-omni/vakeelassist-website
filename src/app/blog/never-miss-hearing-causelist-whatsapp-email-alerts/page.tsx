@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import BlogHero from "@/components/blog/BlogHero";
 import BlogSidebar from "@/components/blog/BlogSidebar";
 import SiteHeader from "@/components/SiteHeader";
@@ -15,24 +14,6 @@ const toc = [
   { href: "#how", label: "How it works: 3 steps" },
   { href: "#compare", label: "Before vs. after" },
   { href: "#for-whom", label: "Who this is built for" },
-] as const;
-
-const related = [
-  // {
-  //   href: "https://vakeelassist.com/blog/manage-multiple-cases-advocate-india",
-  //   tag: "Case Management",
-  //   title: "How to manage 40+ active matters without losing your mind",
-  // },
-  // {
-  //   href: "https://vakeelassist.com/blog/gst-invoice-guide-advocates",
-  //   tag: "Billing",
-  //   title: "GST invoicing for advocates: a complete guide",
-  // },
-  // {
-  //   href: "https://vakeelassist.com/blog/ai-legal-drafting-india-beginners",
-  //   tag: "AI Drafting",
-  //   title: "A beginner's guide to AI legal drafting for Indian advocates",
-  // },
 ] as const;
 
 export const metadata: Metadata = {
@@ -80,7 +61,6 @@ export default function CauselistBlogPost() {
       <SiteHeader />
       <div className="h-16" />
       <BlogHero
-        categoryLabel="Causelist Alerts"
         categoryTag="Core USP · Causelist"
         titleTop="Never Miss a Hearing:"
         titleEmphasis="Get Real-Time Causelist Alerts on WhatsApp & Email"
@@ -312,7 +292,7 @@ export default function CauselistBlogPost() {
           </main>
 
           <div className="order-2 lg:order-none">
-            <BlogSidebar slug={slug} toc={[...toc]} related={[...related]} ctaHref={ctaHref} />
+            <BlogSidebar toc={[...toc]} ctaHref={ctaHref} />
           </div>
         </div>
       </div>

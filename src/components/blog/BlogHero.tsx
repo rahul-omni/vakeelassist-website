@@ -1,5 +1,4 @@
 type BlogHeroProps = {
-  categoryLabel: string;
   categoryTag: string;
   titleTop: string;
   titleEmphasis: string;
@@ -10,7 +9,6 @@ type BlogHeroProps = {
 };
 
 export default function BlogHero({
-  categoryLabel,
   categoryTag,
   titleTop,
   titleEmphasis,

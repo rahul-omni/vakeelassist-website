@@ -68,61 +68,61 @@ export default function SiteHeader() {
                     style={{ backgroundColor: "#0f0e0d" }}
                   >
                     <div className="py-2">
-                      <a
+                      <Link
                         href="/#assistant"
                         className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
                         onClick={() => setFeaturesDropdownOpen(false)}
                       >
                         <div className="font-medium">AI Assistant</div>
                         <div className="text-sm text-gray-500">Ask questions and analyze documents</div>
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="/#translation"
                         className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
                         onClick={() => setFeaturesDropdownOpen(false)}
                       >
                         <div className="font-medium">Document Translation</div>
                         <div className="text-sm text-gray-500">Translate legal documents instantly</div>
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="/#alerts"
                         className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
                         onClick={() => setFeaturesDropdownOpen(false)}
                       >
                         <div className="font-medium">Cause List Alerts</div>
                         <div className="text-sm text-gray-500">Never miss a court date</div>
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="/#assistant"
                         className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
                         onClick={() => setFeaturesDropdownOpen(false)}
                       >
                         <div className="font-medium">Document Drafting</div>
                         <div className="text-sm text-gray-500">Draft legal documents with AI</div>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
               </div>
 
-              <a
+              <Link
                 href="/#pricing"
                 className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
               >
                 Pricing
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/#contact"
                 className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
               >
                 Contact
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/blog"
                 className="text-gray-300 hover:text-white px-3 py-2 font-medium transition-colors"
               >
                 Blog
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -162,50 +162,50 @@ export default function SiteHeader() {
           <div className="px-2 pt-2 pb-3 space-y-1">
             <div className="px-3 py-2">
               <div className="text-gray-500 text-xs uppercase font-semibold mb-2">Features</div>
-              <a
+              <Link
                 href="/#assistant"
                 className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800"
               >
                 AI Assistant
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/#translation"
                 className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800"
               >
                 Document Translation
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/#alerts"
                 className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800"
               >
                 Cause List Alerts
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/#research"
                 className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800"
               >
                 Legal Research
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/#drafting"
                 className="block px-3 py-2 rounded-md text-sm text-gray-300 hover:text-white hover:bg-gray-800"
               >
                 Document Drafting
-              </a>
+              </Link>
             </div>
 
-            <a
+            <Link
               href="/#pricing"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
             >
               Pricing
-            </a>
-            <a
+            </Link>
+            <Link
               href="/#contact"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800"
             >
               Contact
-            </a>
+            </Link>
 
             <div className="mt-4 px-3">
               <a
